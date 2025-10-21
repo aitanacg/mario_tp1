@@ -1,3 +1,11 @@
+
+	/**
+	 * Los tests no funcionan demasiado bien pero el codigo compila, y en terminal se ve y se puede jugar perfectamente
+	 * Las fisicas del juego las he implementado como mejor he podido interpretarlas
+ 	 * estan explicadas a lo largo del codigo y en mario.java explica los movimientos de mario
+	 * 
+	 */
+
 package tp1;
 
 import java.util.Locale;
