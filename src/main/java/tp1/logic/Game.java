@@ -53,38 +53,7 @@ public class Game {
 	private void initLevel1() {
 		this.nLevel = 1;
 		this.remainingTime = 100;
-
-		gameObjects = new GameObjectContainer();
-
-		for (int col = 0; col < 15; col++) { 		//sueloo
-			gameObjects.add(new Land(new Position(13, col)));
-			gameObjects.add(new Land(new Position(14, col)));
-		}
-
-		gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 9))); 	//plataforma chulais
-		gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 12)));
-
-		for (int col = 17; col < Game.DIM_X; col++) {
-			gameObjects.add(new Land(new Position(Game.DIM_Y - 2, col)));
-			gameObjects.add(new Land(new Position(Game.DIM_Y - 1, col)));
-		}
-
-		gameObjects.add(new Land(new Position(9, 2)));
-		gameObjects.add(new Land(new Position(9, 5)));
-		gameObjects.add(new Land(new Position(9, 6)));
-		gameObjects.add(new Land(new Position(9, 7)));
-		gameObjects.add(new Land(new Position(5, 6)));
-
-		int tamX = 8;
-		int posIniX = Game.DIM_X - 3 - tamX;
-		int posIniY = Game.DIM_Y - 3;
-		for (int col = 0; col < tamX; col++) {
-			for (int fila = 0; fila < col + 1; fila++) {
-				gameObjects.add(new Land(new Position(posIniY - fila, posIniX + col)));
-			}
-		}
-
-		gameObjects.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));  //puerta
+        initCommonTerrain();
 
 		this.mario = new Mario(this, new Position(Game.DIM_Y - 3, 0));  //personajes
 		this.mario.setBig(false); //si quisiera empezar big pues le pongo true
@@ -103,45 +72,50 @@ public class Game {
 	private void initLevel0() {
 		this.nLevel = 0;
 		this.remainingTime = 100;
-		
-		// 1. Mapa
-		gameObjects = new GameObjectContainer();
-		for(int col = 0; col < 15; col++) {
-			gameObjects.add(new Land(new Position(13,col)));
-			gameObjects.add(new Land(new Position(14,col)));		
-		}
-
-		gameObjects.add(new Land(new Position(Game.DIM_Y-3,9)));
-		gameObjects.add(new Land(new Position(Game.DIM_Y-3,12)));
-		for(int col = 17; col < Game.DIM_X; col++) {
-			gameObjects.add(new Land(new Position(Game.DIM_Y-2, col)));
-			gameObjects.add(new Land(new Position(Game.DIM_Y-1, col)));		
-		}
-
-		gameObjects.add(new Land(new Position(9,2)));
-		gameObjects.add(new Land(new Position(9,5)));
-		gameObjects.add(new Land(new Position(9,6)));
-		gameObjects.add(new Land(new Position(9,7)));
-		gameObjects.add(new Land(new Position(5,6)));
-		
-		// Salto final
-		int tamX = 8;
-		int posIniX = Game.DIM_X-3-tamX, posIniY = Game.DIM_Y-3;
-		
-		for(int col = 0; col < tamX; col++) {
-			for (int fila = 0; fila < col+1; fila++) {
-				gameObjects.add(new Land(new Position(posIniY- fila, posIniX+ col)));
-			}
-		}
-
-		gameObjects.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1)));
-
+        initCommonTerrain();
 		// 3. Personajes
 		this.mario = new Mario(this, new Position(Game.DIM_Y-3, 0));
 		gameObjects.add(this.mario);
-
 		gameObjects.add(new Goomba(this, new Position(0, 19)));
 	}
+
+    private void initCommonTerrain() {
+        gameObjects = new GameObjectContainer();
+        //suelo inicial
+        for (int col = 0; col < 15; col++) {
+            gameObjects.add(new Land(new Position(13, col)));
+            gameObjects.add(new Land(new Position(14, col)));
+        }
+
+        //plataformas comunes
+        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 9)));
+        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 12)));
+
+        for (int col = 17; col < Game.DIM_X; col++) {
+            gameObjects.add(new Land(new Position(Game.DIM_Y - 2, col)));
+            gameObjects.add(new Land(new Position(Game.DIM_Y - 1, col)));
+        }
+
+        //plataformas altas
+        gameObjects.add(new Land(new Position(9, 2)));
+        gameObjects.add(new Land(new Position(9, 5)));
+        gameObjects.add(new Land(new Position(9, 6)));
+        gameObjects.add(new Land(new Position(9, 7)));
+        gameObjects.add(new Land(new Position(5, 6)));
+
+        //salto final tipo escalera
+        int tamX = 8;
+        int posIniX = Game.DIM_X - 3 - tamX;
+        int posIniY = Game.DIM_Y - 3;
+        for (int col = 0; col < tamX; col++) {
+            for (int fila = 0; fila < col + 1; fila++) {
+                gameObjects.add(new Land(new Position(posIniY - fila, posIniX + col)));
+            }
+        }
+
+        //exit
+        gameObjects.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
+    }
 
 	public String positionToString(int col, int row) {
     	return gameObjects.stringAt(new Position(row, col));
@@ -161,18 +135,16 @@ public class Game {
 	public int numLives() { return numLives; }
 
 	public void update() { //baja el tiempo uno si no ha acabado
-		if (finished) return;
+        if (finished) return;
+        updateTurn();
 
-		gameObjects.updateAll();//mueve mario y goombas
-    	if (finished) return;
-
-		if (remainingTime > 0) {
-			remainingTime--;
+		//if (remainingTime > 0) {
+		//	remainingTime--;
 			if (remainingTime == 0) { //game over si no hay tiempo
 				finished = true;
 				playerLost = true;
 			}
-		}
+		//}
 
 		actions.clear(); //a ver si me soluciona el tremendo bug del up :')
 	}
@@ -215,7 +187,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		// TODO returns a textual representation of the object
+		//TODO returns a textual representation of the object
 		return "TODO: Hola soy el game";
 	}
 	
@@ -243,9 +215,10 @@ public class Game {
 	}	
 
 	public void addAction(Action a) {
-		List<Action> acciones = new ArrayList<>();
-		acciones.add(a);
-		actions.add(acciones);
+		//List<Action> acciones = new ArrayList<>();
+		//acciones.add(a);
+		//actions.add(acciones);
+        actions.add(a);
 	}
 
 	public ActionList getActions() {
@@ -257,12 +230,26 @@ public class Game {
 		this.playerWon = true;
 	}
 
-	public void doInteractionsFrom(Mario mario) {
-		gameObjects.doInteractionsFrom(mario);
-	}
+	//public void doInteractionsFrom(Mario mario) {
+	//	gameObjects.doInteractionsFrom(mario);
+	//}
 
 	public void addPoints(int pts) {
 		this.points += pts;
 	}
+
+    public void consumeTime(int t) {
+        remainingTime -= t;
+        if (remainingTime <= 0) {
+            marioDies();
+        }
+    }
+
+    //un turno hace el update
+    public void updateTurn() {
+        mario.update();      //mario hasta 4 movimientos y resta 1t
+        gameObjects.updateAll();        //goombas
+        gameObjects.doInteractions();        //interacciones
+    }
 
 }

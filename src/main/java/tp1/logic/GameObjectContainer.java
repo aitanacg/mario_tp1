@@ -17,8 +17,8 @@ public class GameObjectContainer {
 	private ExitDoor exit = null;
 	private Mario mario = null;
 
-	//add sobrecargados
 
+	//add sobrecargados
 	public boolean isSolidAt(Position p) {
 		for (int i = 0; i < nLands; i++) {   //miro si hay un land en p
 			if (lands[i].getPosition().equals(p))
@@ -85,13 +85,44 @@ public class GameObjectContainer {
 	}
 
 
-	public void doInteractionsFrom(Mario mario) {
-		for (int i = 0; i < nGoombas; i++) {
-			if (goombas[i] != null && goombas[i].isAlive()) {
-				mario.interactWith(goombas[i]);
-			}
-		}
-	}
+    public void doInteractions() {
+        if (mario == null) return;
+        Position mp = mario.getPosition();
+
+        for (int i = 0; i < nGoombas; i++) {
+            Goomba g = goombas[i];
+
+            if (g != null && g.isAlive()) {
+                Position gp = g.getPosition();
+
+                //mario sobre goomba
+                Position belowMario = mp.translate(0, +1);
+                boolean pisa = mario.isFalling() && gp.equals(mp.translate(0, +1));
+
+                if (pisa) {
+                    g.receiveInteraction(mario);  //goomba muere :(
+                    mario.saltitosLeft = 0;
+                    mario.setFalling(false);
+                    return;
+                }
+
+                //normal y pos se mata mi amigo
+                boolean samePos = gp.equals(mp);
+                boolean hitHead = mario.isBig() && gp.equals(mp.translate(0, -1));
+
+                if (samePos || hitHead) {
+                    mario.getGame().marioDies();
+                    clean();
+                    return;
+                }
+            }
+        }
+
+        //exit
+        if (exit != null && exit.getPosition().equals(mp)) {
+            mario.getGame().setPlayerWon();
+        }
+    }
 
 	//exit door no es solido, pero no puede estar sobre land
 	public void add(ExitDoor d) {
@@ -154,9 +185,53 @@ public class GameObjectContainer {
 
 	}
 
+    public void updateAllAutonomous() {
+        // Mueve los goombas
+        for (int i = 0; i < nGoombas; i++) {
+            if (goombas[i] != null) {
+                goombas[i].update();
+            }
+        }
+        // 2. Física de Mario (salto + gravedad)
+        if (mario != null) {
+            Position pos = mario.getPosition();
+            Game g = mario.getGame();
+
+            // 2.1. Si está saltando, sube hasta agotar saltitos
+            if (mario.isJumping() && mario.saltitosLeft > 0) {
+                Position up = pos.translate(0, -1);
+                if (!isSolidAt(up)) {
+                    mario._setPositionForPhysics(up);
+                    mario.saltitosLeft--;
+                    mario.setFalling(false);
+                } else {
+                    mario.saltitosLeft = 0; // tope si choca
+                }
+                if (mario.saltitosLeft == 0) {
+                    mario.setJumping(false); // termina salto
+                    mario.setFalling(true);
+                }
+            }
+            // 2.2. Si no salta, aplica gravedad
+            else {
+                Position below = pos.translate(0, +1);
+                if (!isSolidAt(below)) {
+                    mario._setPositionForPhysics(below);
+                    mario.setFalling(true);
+                    // si se sale del tablero, muere
+                    if (below.getRow() >= Game.DIM_Y) {
+                        g.marioDies();
+                    }
+                }else {mario.setFalling(false);}
+            }
+        }
+
+        clean();
+        //doInteractions() en Game.updateTurn()
+    }
 
 	public void updateAll() {
-		if (mario != null)
+		/*if (mario != null)
 			mario.update(); //primero mario
 		for (int i = 0; i < nGoombas; i++) { //luego goombas
 			goombas[i].update();
@@ -164,7 +239,10 @@ public class GameObjectContainer {
 		doInteractionsFrom(mario);
 		clean();
 
-	}
+		 */
+        if (mario != null) mario.update();   // mueve Mario (consume tiempo por movimiento)
+        updateAllAutonomous();               // goombas
+    }
 
 	public void clear(){  //mato todo y reseteo contadores, para el reset
 		for (int i=0; i<nLands; i++) lands[i]=null;

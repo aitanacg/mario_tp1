@@ -19,9 +19,20 @@ public final class Position {
 		return new Position(row + dy, col + dx);  //dy filas dx columnas
 	}
 
+    //comprueba que la pos esta en el tablero
 	public boolean isInBounds(int width, int height){
 		return (row >= 0 && row < height && col >= 0 && col < width);
 	}
+
+    public Position next(Action a) {
+        switch (a) {
+            case LEFT:  return translate(-1, 0);
+            case RIGHT: return translate(+1, 0);
+            case UP:    return translate(0, -1);
+            case DOWN:  return translate(0, +1);
+            default:    return this;
+        }
+    }
 
 	@Override
 	public boolean equals(Object o) {
