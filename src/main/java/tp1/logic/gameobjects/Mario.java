@@ -95,7 +95,7 @@ public class Mario {
         }
 
         stopped = false;
-        //dir que queremos
+        //direccion que queremos
         if (a == Action.LEFT)  facing = Facing.LEFT;
         if (a == Action.RIGHT) facing = Facing.RIGHT;
         if (a == Action.LEFT || a == Action.RIGHT) {
@@ -106,7 +106,7 @@ public class Mario {
 
         if (a == Action.UP) {
             Position below = pos.translate(0, +1);
-            // solo inicia salto si está tocando el suelo
+            //solo inicia salto si está tocando el suelo
             if (game.getGameObjectContainer().isSolidAt(below)) {
                 jumping = true;
                 falling = false;
@@ -114,8 +114,8 @@ public class Mario {
             }
             return true;
         }
-        if (a == Action.DOWN) { // caída rápida hasta apoyar
-            // CANCELA el salto en curso para que la física no te vuelva a subir
+        if (a == Action.DOWN) { //cae hasta suelo
+            // cancela el salto para que no se me vaya flotando
             jumping = false;
             saltitosLeft = 0;
             falling = true;

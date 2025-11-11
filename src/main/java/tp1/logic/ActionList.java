@@ -51,7 +51,11 @@ public class ActionList {
     public boolean isValid() {
         return actions.size() <= MAX_ACTIONS;
     }
-
+    @Override
+    public String toString() {
+        return actions.toString();
+    }
+}
 
 
 
@@ -172,8 +176,4 @@ public class ActionList {
 
     */
 
-    @Override
-    public String toString() {
-        return actions.toString();
-    }
-}
+

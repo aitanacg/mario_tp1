@@ -182,22 +182,21 @@ public class GameObjectContainer {
 			}
 		}
 		return Messages.EMPTY;
-
 	}
 
     public void updateAllAutonomous() {
-        // Mueve los goombas
+        //mueve goombas
         for (int i = 0; i < nGoombas; i++) {
             if (goombas[i] != null) {
                 goombas[i].update();
             }
         }
-        // 2. Física de Mario (salto + gravedad)
+        //fisica de mario (salto y gravedad)
         if (mario != null) {
             Position pos = mario.getPosition();
             Game g = mario.getGame();
 
-            // 2.1. Si está saltando, sube hasta agotar saltitos
+            //si salta, hasta gastar saltitos
             if (mario.isJumping() && mario.saltitosLeft > 0) {
                 Position up = pos.translate(0, -1);
                 if (!isSolidAt(up)) {
@@ -205,20 +204,20 @@ public class GameObjectContainer {
                     mario.saltitosLeft--;
                     mario.setFalling(false);
                 } else {
-                    mario.saltitosLeft = 0; // tope si choca
+                    mario.saltitosLeft = 0; //tope si choca
                 }
                 if (mario.saltitosLeft == 0) {
-                    mario.setJumping(false); // termina salto
+                    mario.setJumping(false); //termina salto
                     mario.setFalling(true);
                 }
             }
-            // 2.2. Si no salta, aplica gravedad
+            //no salta, aplica gravity
             else {
                 Position below = pos.translate(0, +1);
                 if (!isSolidAt(below)) {
                     mario._setPositionForPhysics(below);
                     mario.setFalling(true);
-                    // si se sale del tablero, muere
+                    //fuera tablero muere
                     if (below.getRow() >= Game.DIM_Y) {
                         g.marioDies();
                     }
@@ -231,17 +230,8 @@ public class GameObjectContainer {
     }
 
 	public void updateAll() {
-		/*if (mario != null)
-			mario.update(); //primero mario
-		for (int i = 0; i < nGoombas; i++) { //luego goombas
-			goombas[i].update();
-		}
-		doInteractionsFrom(mario);
-		clean();
-
-		 */
-        if (mario != null) mario.update();   // mueve Mario (consume tiempo por movimiento)
-        updateAllAutonomous();               // goombas
+        if (mario != null) mario.update();   //mueve Mario(consume tiempo por mov)
+        updateAllAutonomous();   //goombas
     }
 
 	public void clear(){  //mato todo y reseteo contadores, para el reset

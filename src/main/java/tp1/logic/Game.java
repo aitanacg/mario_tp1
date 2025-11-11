@@ -137,14 +137,10 @@ public class Game {
 	public void update() { //baja el tiempo uno si no ha acabado
         if (finished) return;
         updateTurn();
-
-		//if (remainingTime > 0) {
-		//	remainingTime--;
 			if (remainingTime == 0) { //game over si no hay tiempo
 				finished = true;
 				playerLost = true;
 			}
-		//}
 
 		actions.clear(); //a ver si me soluciona el tremendo bug del up :')
 	}
@@ -157,7 +153,7 @@ public class Game {
     	int keepLives  = this.numLives;
 
     	if (target == 0) initLevel0();
-    	else             initLevel1();
+    	else initLevel1();
 
     	this.points   = keepPoints;
     	this.numLives = keepLives;
@@ -229,10 +225,6 @@ public class Game {
 		this.finished = true;
 		this.playerWon = true;
 	}
-
-	//public void doInteractionsFrom(Mario mario) {
-	//	gameObjects.doInteractionsFrom(mario);
-	//}
 
 	public void addPoints(int pts) {
 		this.points += pts;
