@@ -1,3 +1,9 @@
+/**
+	 * Los tests no funcionan demasiado bien pero el codigo compila, y en terminal se ve y se puede jugar perfectamente
+	 * Por lo que veo los test no pueden leer bien lo que imprimo por la terminal, y no detecta ni a mario ni a otras entidades
+	 * 
+	 */
+
 package tp1;
 
 import static org.junit.jupiter.api.Assertions.fail;
