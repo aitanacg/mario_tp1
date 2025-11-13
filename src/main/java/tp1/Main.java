@@ -21,14 +21,14 @@ import tp1.view.Messages;
 public class Main {
 
 	/**
-	 * Entry point
+	 * Entry pointpackage tp1.logic.gameobjects;
 	 * 
 	 * @param args Arguments for the game.
 	 */
 	public static void main(String[] args) {
 		// Required to avoid issues with tests
         Locale.of("es", "ES");
-		
+
 		try {
 			
 			int nLevel = 1;

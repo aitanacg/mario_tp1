@@ -3,8 +3,9 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 import tp1.logic.gameobjects.*;
+import tp1.logic.GameModel;
 
-public class Game {
+public class Game implements GameModel{
 
 	public static final int DIM_X = 30;
 	public static final int DIM_Y = 15;
@@ -83,25 +84,25 @@ public class Game {
         gameObjects = new GameObjectContainer();
         //suelo inicial
         for (int col = 0; col < 15; col++) {
-            gameObjects.add(new Land(new Position(13, col)));
-            gameObjects.add(new Land(new Position(14, col)));
+            gameObjects.add(new Land(this, new Position(13, col)));
+            gameObjects.add(new Land(this,new Position(14, col)));
         }
 
         //plataformas comunes
-        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 9)));
-        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 12)));
+        gameObjects.add(new Land(this,new Position(Game.DIM_Y - 3, 9)));
+        gameObjects.add(new Land(this,new Position(Game.DIM_Y - 3, 12)));
 
         for (int col = 17; col < Game.DIM_X; col++) {
-            gameObjects.add(new Land(new Position(Game.DIM_Y - 2, col)));
-            gameObjects.add(new Land(new Position(Game.DIM_Y - 1, col)));
+            gameObjects.add(new Land(this,new Position(Game.DIM_Y - 2, col)));
+            gameObjects.add(new Land(this,new Position(Game.DIM_Y - 1, col)));
         }
 
         //plataformas altas
-        gameObjects.add(new Land(new Position(9, 2)));
-        gameObjects.add(new Land(new Position(9, 5)));
-        gameObjects.add(new Land(new Position(9, 6)));
-        gameObjects.add(new Land(new Position(9, 7)));
-        gameObjects.add(new Land(new Position(5, 6)));
+        gameObjects.add(new Land(this,new Position(9, 2)));
+        gameObjects.add(new Land(this,new Position(9, 5)));
+        gameObjects.add(new Land(this,new Position(9, 6)));
+        gameObjects.add(new Land(this,new Position(9, 7)));
+        gameObjects.add(new Land(this,new Position(5, 6)));
 
         //salto final tipo escalera
         int tamX = 8;
@@ -109,12 +110,12 @@ public class Game {
         int posIniY = Game.DIM_Y - 3;
         for (int col = 0; col < tamX; col++) {
             for (int fila = 0; fila < col + 1; fila++) {
-                gameObjects.add(new Land(new Position(posIniY - fila, posIniX + col)));
+                gameObjects.add(new Land(this,new Position(posIniY - fila, posIniX + col)));
             }
         }
 
         //exit
-        gameObjects.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
+        gameObjects.add(new ExitDoor(this, new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
     }
 
 	public String positionToString(int col, int row) {
@@ -136,13 +137,18 @@ public class Game {
 
 	public void update() { //baja el tiempo uno si no ha acabado
         if (finished) return;
-        updateTurn();
-			if (remainingTime == 0) { //game over si no hay tiempo
-				finished = true;
-				playerLost = true;
-			}
 
-		actions.clear(); //a ver si me soluciona el tremendo bug del up :')
+        updateTurn();
+
+        if (!finished && remainingTime > 0) {
+            remainingTime--;
+            if (remainingTime == 0) {
+                finished = true;
+                playerLost = true;
+            }
+        }
+
+        actions.clear(); //a ver si me soluciona el tremendo bug del up :')
 	}
 
 	public void reset(Integer mayLevel){
@@ -206,14 +212,14 @@ public class Game {
 		reset();
 	}
 	
-	public void removeGoomba(tp1.logic.gameobjects.Goomba g) {
-    	gameObjects.removeGoomba(g);
-	}	
+	//public void removeGoomba(tp1.logic.gameobjects.Goomba g) {
+    	//gameObjects.removeGoomba(g);
+    //    if (g != null) g.die();         // marca el Goomba como muerto
+    //       // gameObjects.clean(); // lo elimina en la siguiente limpieza
+
+	//}
 
 	public void addAction(Action a) {
-		//List<Action> acciones = new ArrayList<>();
-		//acciones.add(a);
-		//actions.add(acciones);
         actions.add(a);
 	}
 
@@ -239,9 +245,7 @@ public class Game {
 
     //un turno hace el update
     public void updateTurn() {
-        mario.update();      //mario hasta 4 movimientos y resta 1t
-        gameObjects.updateAll();        //goombas
-        gameObjects.doInteractions();        //interacciones
+        gameObjects.updateAll();    //goombas
     }
 
 }

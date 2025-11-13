@@ -3,75 +3,79 @@ package tp1.logic.gameobjects;
 import tp1.logic.Game;
 import tp1.logic.Position;
 
+public class Goomba extends MovingObject {
 
-public class Goomba {
-    private final Game game;
-    private Position pos;
     private int dx = -1;
 
-    private boolean alive = true;
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-   
     public Goomba(Game game, Position pos) {
-        this.game = game;
-        this.pos = pos;  
+        super(game,pos);
     }
 
-    public Position getPosition() {
-        return pos;
-    }
-
-    public void setPosition(Position p) {
-        this.pos = p;
-    } //movimiento mas adelante
-
+    @Override
     public String getIcon() {
         return tp1.view.Messages.GOOMBA;
     }
-    
+
+    @Override
     public void update() {
-         
-        int r = pos.getRow();
-        int c = pos.getCol();
 
-        // 1) Gravedad: mirar la celda de debajo
-        String below = game.positionToString(c, r + 1);
-        boolean hasFloor = tp1.view.Messages.LAND.equals(below);
-        if (!hasFloor) {
-            // cae una casilla
-            pos = new Position(r + 1, c);
-            // si se sale por abajo, muere
-            if (pos.getRow() >= Game.DIM_Y)
-                game.removeGoomba(this);
+        //gravedad
+        Position below = position.translate(0, +1);
+        if (!game.getGameObjectContainer().isSolidAt(below)) {
+            position = below;
+            //si cae fuera del tablero muere
+            if (position.getRow() >= Game.DIM_Y) die();
             return;
         }
 
-        // 2) En suelo: intentar avanzar 1 en la dirección dx
-        int nextC = c + dx;
+        //mov horizontal con rebote boing
+        int nextC = position.getCol() + (dirX == 0 ? -1 : dirX); //si dirX=0 pa la izq
+        int r = position.getRow();
+
         boolean hitsWall = (nextC < 0 || nextC >= Game.DIM_X);
-        boolean landAhead = !hitsWall && tp1.view.Messages.LAND.equals(
-                game.positionToString(nextC, r));
+        boolean solidAhead = !hitsWall && game.getGameObjectContainer().isSolidAt(new Position(r, nextC));
 
-        if (hitsWall || landAhead) {
-            dx = -dx; //giroo
+        if (hitsWall || solidAhead) {
+            dirX = (dirX == 0 ? +1 : -dirX);
             return;
         }
 
-        pos = new Position(r, nextC);//delante
-        
-    }
- 
-    public boolean receiveInteraction(Mario other) {
-        this.alive = false;
-        game.addPoints(100);
-        return true;
-        
+        position = new Position(r, nextC);
     }
 
+    //DOUBLE DISPATCH
+
+    @Override
+    public boolean interactWith(GameItem other) {
+        return other.receiveInteraction(this);
+    }
+
+    @Override
+    public boolean receiveInteraction(Mario m) {
+
+        Position mp = m.getPosition();
+        Position gp = this.position;
+
+        boolean pisa = m.isFalling() && mp.equals(gp);
+        if (pisa) {
+            System.out.println("Mario pisa a goomba");
+            die();
+            game.addPoints(100);
+            m.setFalling(false);
+            return true;
+        }
+
+        // Si no viene cayendo muere mario :(
+        if (mp.equals(gp)) {
+            System.out.println("Mario muere por chocar con goomba");
+            game.marioDies();
+            return true;
+        }
+        return false;
+    }
+
+    @Override public boolean receiveInteraction(Goomba g)  { return false; }
+    @Override public boolean receiveInteraction(ExitDoor d){ return false; }
+    @Override public boolean receiveInteraction(Land l)    { return false; }
 
 }
-

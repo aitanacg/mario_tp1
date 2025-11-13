@@ -4,53 +4,60 @@ import tp1.logic.Position;
 import tp1.logic.Action;
 import tp1.logic.Game;
 
-public class Mario {
+public class Mario extends MovingObject {
 
-	public enum Facing{ LEFT, RIGHT};
+    public enum Facing{ LEFT, RIGHT};
 
-	private final Game game;
-	private Position pos;
-	private Facing facing = Facing.RIGHT;
-	private boolean big = false;  //si fuera true, ocuparia la tile de arriba
+    private Facing facing = Facing.RIGHT;
+    private boolean big = false;  //si fuera true, ocuparia la tile de arriba
     private boolean stopped = false; //para el icono STOP
     public int saltitosLeft = 0;
     private boolean jumping = false;
-    private boolean falling = false;
-	
-	public Mario(Game game, Position pos) {
-		this.game = game;
-		this.pos= pos;
-	}
+    private boolean justDidDown = false; //para que no se me buguee y no se me vaya volando
+
+
+    public Mario(Game game, Position pos) {
+        super(game, pos);
+    }
     //basics
-	public Position getPosition() {
-   	 	return pos;
-	}
-	public Facing getFacing(){
-		return facing;
-	}
-	public void setFacing(Facing f){
-		this.facing = f;
-	}
+    public Position getPosition() {
+        return position;
+    }
+    public Facing getFacing(){
+        return facing;
+    }
+    public void setFacing(Facing f){
+        this.facing = f;
+    }
     public boolean isBig() {
         return big;
     }
     public void setBig(boolean b) {
         this.big = b;
     }
-    public boolean isFalling() { return falling;}
-    public void setFalling(boolean f) { this.falling = f;}
     public boolean isJumping() { return jumping;}
     public void setJumping(boolean j) { this.jumping = j;}
+
+    @Override
+    public boolean isFalling() {
+        return super.falling;
+    }
+
+    @Override
+    public void setFalling(boolean f) {
+        super.falling = f;
+    }
 
     public Game getGame() { return this.game; }
 
     //lo que ocupa
-	public boolean occupies(Position p) { //si es big tmb el la de arriba
-        if (p.equals(pos)) return true;
-        return big && p.equals(pos.translate(0, -1));
-   	}
+    public boolean occupies(Position p) { //si es big tmb el la de arriba
+        if (p.equals(position)) return true;
+        return big && p.equals(position.translate(0, -1));
+    }
 
-	public String getIcon() {
+    @Override
+    public String getIcon() {
         if (stopped) {
             return tp1.view.Messages.MARIO_STOP;
         } else {
@@ -60,29 +67,68 @@ public class Mario {
                 return tp1.view.Messages.MARIO_RIGHT;
             }
         }
-	}
-	
-	/**
-	 *  Implements the automatic update	
-	 * 
-	 * Para el movimiento, Mario puede hacer un unico movimiento
+    }
+
+    /**
+     * Para el movimiento, Mario puede hacer un unico movimiento
      * no aplica ni gravedad, ni interacciones ni valida turnos o resta time (en Game)
-	 */
-	
-	public void update() {
+     */
+    @Override
+    public void update() {
         int moves = 0; //cuenta movimientos
+        if (stopped) jumping = false;
 
         while (!game.getActions().isEmpty() && moves < 4) {
             Action act = game.getActions().extract();
             if (act == null) break;
 
-            paso(act);  //se mueve
+            paso(act);  //se mueve pasito a pasito
 
             if (act != Action.STOP) {//stop no cuenta
                 game.consumeTime(1);
                 moves++;
             }
         }
+        if (!jumping && saltitosLeft > 0) saltitosLeft = 0; //AAAA
+        //gravedad y salto
+        //mientras queden saltitos
+        if (jumping && saltitosLeft > 0) {
+            Position up = position.translate(0, -1);
+
+            if (!game.getGameObjectContainer().isSolidAt(up)) {
+                position = up;
+                saltitosLeft--;
+                setFalling(false);
+            } else {
+                saltitosLeft = 0; //tope si choca
+            }
+            if (saltitosLeft == 0) {
+                jumping = false;
+                setFalling(true);
+            }
+        }
+        //gravedad si no esta jumping
+        else {
+            if (!jumping && !justDidDown) {
+                Position below = position.translate(0, +1);
+
+                if (!game.getGameObjectContainer().isSolidAt(below)) {
+                    position = below;
+                    setFalling(true);
+                    if (below.getRow() >= Game.DIM_Y) {
+                        game.marioDies();
+                    }
+                } else {
+                    setFalling(false);
+                }
+            }
+        }
+        justDidDown = false;
+        System.out.println("mario pos= " + position +
+                " falling=" + isFalling() +
+                " jumping=" + jumping);
+
+
     }
 
     //aplica una accion
@@ -91,6 +137,9 @@ public class Mario {
 
         if (a == Action.STOP) {
             stopped = true;
+            jumping = false;
+            setFalling(false);
+            saltitosLeft = 0;
             return true;
         }
 
@@ -101,46 +150,47 @@ public class Mario {
         if (a == Action.LEFT || a == Action.RIGHT) {
             jumping = false;
             saltitosLeft = 0;
-            falling = false;
         }
 
+        //salto
         if (a == Action.UP) {
-            Position below = pos.translate(0, +1);
+            if (jumping || saltitosLeft > 0) return true;
+            Position below = position.translate(0, +1);
             //solo inicia salto si está tocando el suelo
             if (game.getGameObjectContainer().isSolidAt(below)) {
                 jumping = true;
-                falling = false;
                 saltitosLeft = 4;
+                setFalling(false);
             }
             return true;
         }
-        if (a == Action.DOWN) { //cae hasta suelo
+        //bajar
+        if (a == Action.DOWN) { //cae hasta suelo :)
             // cancela el salto para que no se me vaya flotando
             jumping = false;
             saltitosLeft = 0;
-            falling = true;
+            setFalling(true);
+            justDidDown = true;
 
-            Position next = pos.translate(0, +1);
+            Position next = position.translate(0, +1);
             while (isInsideBoard(next) && !game.getGameObjectContainer().isSolidAt(next)) {
-                pos = next;
-                next = pos.translate(0, +1);
+                position = next;
+                next = position.translate(0, +1);
             }
-            falling = false;
+
             return true;
         }
 
         //mover si es ocupable
-        Position next = pos.next(a);
+        Position next = position.next(a);
         if (canOccupy(next)) {
-            pos = next;
-            return true;
+            position = next;
         }
-
         //accion procesada
         return true;
     }
 
-        //mario ocupa casilla base p?
+    //mario ocupa casilla base p
     private boolean canOccupy(Position p) {
         if (!isInsideBoard(p)) return false;
         if (game.getGameObjectContainer().isSolidAt(p)) return false;
@@ -158,10 +208,28 @@ public class Mario {
                 && p.getCol() >= 0 && p.getCol() < Game.DIM_X;
     }
 
-    public void _setPositionForPhysics(Position p) {
-        this.pos = p;
+    //INTERACTIONS
+    @Override
+    public boolean interactWith(GameItem other) {
+        return other.receiveInteraction(this);
+    }
+
+    @Override
+    public boolean receiveInteraction(Goomba g) {
+        //no fa res, la logica de matar y pisar ta en goomba.recieveInteraction(mario)
+        return false;
+    }
+
+    @Override
+    public boolean receiveInteraction(ExitDoor d) {
+        game.setPlayerWon();
+        return true;
+    }
+
+    @Override
+    public boolean receiveInteraction(Land l) {
+        //land y mario no se quieren
+        return false;
     }
 }
-
-
 

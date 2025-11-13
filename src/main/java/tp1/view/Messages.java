@@ -55,7 +55,34 @@ public class Messages {
 	public static final String INVALID_COMMAND_PARAMETERS = "Invalid command parameters";
 	public static final String ERROR_COMMAND_EXECUTE = "Command execute problem";
 
-	
+    // === Command names, shortcuts and help ===
+    public static final String COMMAND_HELP_NAME = "help";
+    public static final String COMMAND_HELP_SHORTCUT = "h";
+    public static final String COMMAND_HELP_DETAILS = "[h]elp";
+    public static final String COMMAND_HELP_HELP = "shows this help message";
+
+    public static final String COMMAND_EXIT_NAME = "exit";
+    public static final String COMMAND_EXIT_SHORTCUT = "e";
+    public static final String COMMAND_EXIT_DETAILS = "[e]xit";
+    public static final String COMMAND_EXIT_HELP = "exit the game";
+
+    public static final String COMMAND_RESET_NAME = "reset";
+    public static final String COMMAND_RESET_SHORTCUT = "r";
+    public static final String COMMAND_RESET_DETAILS = "[r]eset";
+    public static final String COMMAND_RESET_HELP = "resets the current level";
+
+    public static final String COMMAND_UPDATE_NAME = "update";
+    public static final String COMMAND_UPDATE_SHORTCUT = "u";
+    public static final String COMMAND_UPDATE_DETAILS = "[u]pdate";
+    public static final String COMMAND_UPDATE_HELP = "updates the game one cycle";
+
+    public static final String COMMAND_ACTION_NAME = "action";
+    public static final String COMMAND_ACTION_SHORTCUT = "a";
+    public static final String COMMAND_ACTION_DETAILS = "[a]ction";
+    public static final String COMMAND_ACTION_HELP = "lets Mario perform an action sequence";
+
+
+
 	public static final String HELP_AVAILABLE_COMMANDS = "Available commands:";
 	/* @formatter:off */
 	public static final String[] HELP_LINES = new String[] { HELP_AVAILABLE_COMMANDS,

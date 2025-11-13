@@ -1,20 +1,57 @@
 package tp1.logic.gameobjects;
 
+import tp1.logic.Game;
 import tp1.logic.Position;
+import tp1.view.Messages;
 
-public class Land {
-    private final Position pos;
+public class Land extends GameObject {
 
-    public Land(Position pos) {
-        this.pos = pos; 
+    public Land(Game game, Position pos) {
+        super(game, pos);
     }
 
-    public Position getPosition(){
-        return pos;
+    @Override
+    public void update() {
+        //no fa res
     }
 
-    public String getIcon(){
-        return tp1.view.Messages.LAND;
+    @Override
+    public boolean isSolid() {
+        return true; //suelo
     }
 
+    @Override
+    public String getIcon() {
+        return Messages.LAND;
+    }
+
+    //DOUBLE DISPATCH
+    @Override
+    public boolean interactWith(GameItem other) {
+        if (other.isInPosition(position)) {
+            return other.receiveInteraction(this);
+        }
+        return false;
+    }
+
+    //INTERACTIONS
+    @Override
+    public boolean receiveInteraction(Mario m) {
+        return false; //A land no le importa mario
+    }
+
+    @Override
+    public boolean receiveInteraction(Goomba g) {
+        return false;//same
+    }
+
+    @Override
+    public boolean receiveInteraction(ExitDoor d) {
+        return false;//same
+    }
+
+    @Override
+    public boolean receiveInteraction(Land l) {
+        return false;//same
+    }
 }
