@@ -6,6 +6,11 @@ import tp1.logic.Game;
 
 public class Mario extends MovingObject {
 
+    //constructor vacio para facotria
+    protected Mario() {
+        super(null, null);
+    }
+
     public enum Facing{ LEFT, RIGHT};
 
     private Facing facing = Facing.RIGHT;
@@ -231,5 +236,39 @@ public class Mario extends MovingObject {
         //land y mario no se quieren
         return false;
     }
+
+    //FACTORIA
+
+    public GameObject parse(String[] words, Game game) {
+        if (!GameObject.matchesType(words[1], "MARIO", "M"))
+            return null;
+
+        Position pos = GameObject.parsePosition(words[0]);
+        if (pos == null) return null;
+
+        Mario m = new Mario(game, pos);
+
+        // dirección opcional
+        if (words.length >= 3) {
+            String w = words[2].toUpperCase();
+            if (w.equals("LEFT") || w.equals("L"))
+                m.setFacing(Facing.LEFT);
+            else if (w.equals("RIGHT") || w.equals("R"))
+                m.setFacing(Facing.RIGHT);
+        }
+
+        // tamaño opcional
+        if (words.length >= 4) {
+            String w = words[3].toUpperCase();
+            if (w.equals("BIG") || w.equals("B"))
+                m.setBig(true);
+            else if (w.equals("SMALL") || w.equals("S"))
+                m.setBig(false);
+        }
+
+        return m;
+    }
+
+
 }
 

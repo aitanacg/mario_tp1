@@ -10,7 +10,8 @@ public class CommandGenerator {
             new UpdateCommand(),
             new ResetCommand(),
             new HelpCommand(),
-            new ExitCommand()
+            new ExitCommand(),
+            new AddObjectCommand()
     );
 
     public static Command parse(String[] words) {

@@ -51,4 +51,28 @@ public abstract class GameObject implements GameItem {
     public boolean receiveInteraction(ExitDoor e){ return false; }
     public boolean receiveInteraction(Land l)    { return false; }
 
+    //FACTORIA................. si
+
+    public GameObject parse(String[] words, Game game) {
+        return null; //por default nada
+    }
+    //dev true si words[1] coincide con tipo
+    protected static boolean matchesType(String word, String full, String shortName) {
+        String w = word.toUpperCase();
+        return w.equals(full) || w.equals(shortName);
+    }
+
+    //interpreta mis coords de (miau,miau)
+    protected static Position parsePosition(String s) {
+        try {
+            s = s.replace("(", "").replace(")", "");
+            String[] p = s.split(",");
+            int r = Integer.parseInt(p[0]);
+            int c = Integer.parseInt(p[1]);
+            return new Position(c, r); // OJO con tu sistema si invertías coordenadas
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

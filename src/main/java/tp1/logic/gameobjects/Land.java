@@ -6,6 +6,11 @@ import tp1.view.Messages;
 
 public class Land extends GameObject {
 
+    //constructor vacio para factoria
+    protected Land() {
+        super(null, null);
+    }
+
     public Land(Game game, Position pos) {
         super(game, pos);
     }
@@ -54,4 +59,17 @@ public class Land extends GameObject {
     public boolean receiveInteraction(Land l) {
         return false;//same
     }
+
+    //FACTRIA
+    public GameObject parse(String[] words, Game game) {
+        if (!GameObject.matchesType(words[1], "LAND", "L"))
+            return null;
+
+        Position pos = GameObject.parsePosition(words[0]);
+        if (pos == null) return null;
+
+        return new Land(game, pos);
+    }
+
+
 }

@@ -6,6 +6,11 @@ import tp1.view.Messages;
 
 public class ExitDoor extends GameObject {
 
+    //constructor vacio para factoria
+    protected ExitDoor() {
+        super(null, null);
+    }
+
     public ExitDoor(Game game, Position pos) {
         super(game, pos);
     }
@@ -52,4 +57,17 @@ public class ExitDoor extends GameObject {
     public boolean receiveInteraction(Land l) {
         return false;
     }
+
+    //FACTORIA
+
+    public GameObject parse(String[] words, Game game) {
+        if (!GameObject.matchesType(words[1], "EXITDOOR", "ED"))
+            return null;
+
+        Position pos = GameObject.parsePosition(words[0]);
+        if (pos == null) return null;
+
+        return new ExitDoor(game, pos);
+    }
+
 }

@@ -34,10 +34,12 @@ public class Game implements GameModel{
 	public Game(int nLevel) {
 		this.nLevel = nLevel;
 		resetScoreAndState();
-		if (nLevel == 0)
-			initLevel0();
-		else
-			initLevel1();
+        if (nLevel == -1)
+            initLevelMinus1();
+        else if (nLevel == 0)
+            initLevel0();
+        else
+            initLevel1();
 	}
 	
 	private void resetScoreAndState() {
@@ -79,6 +81,21 @@ public class Game implements GameModel{
 		gameObjects.add(this.mario);
 		gameObjects.add(new Goomba(this, new Position(0, 19)));
 	}
+
+    private void initLevelMinus1() {
+        this.nLevel = -1;
+
+        this.remainingTime = 100;
+        this.points = 0;
+        this.numLives = 3;
+
+        //tablero vacio
+        gameObjects = new GameObjectContainer();
+
+        //anado mario chiquito
+        this.mario = new Mario(this, new Position(0, 0));
+        gameObjects.add(this.mario);
+    }
 
     private void initCommonTerrain() {
         gameObjects = new GameObjectContainer();
@@ -153,13 +170,18 @@ public class Game implements GameModel{
 
 	public void reset(Integer mayLevel){
 		int target = (mayLevel == null) ? this.nLevel : mayLevel;
-    	if (target != 0 && target != 1) target = this.nLevel;
+        if (target != -1 && target != 0 && target != 1)
+            target = this.nLevel;
 
  		int keepPoints = this.points;
     	int keepLives  = this.numLives;
 
-    	if (target == 0) initLevel0();
-    	else initLevel1();
+        if (target == -1)
+            initLevelMinus1();
+        else if (target == 0)
+            initLevel0();
+        else
+            initLevel1();
 
     	this.points   = keepPoints;
     	this.numLives = keepLives;
@@ -180,10 +202,12 @@ public class Game implements GameModel{
 		loseLife();
 
 		if (!finished) {
-			if (nLevel == 0)//si queda vidas pos reset
-				initLevel0();
-			else
-				initLevel1();
+            if (nLevel == -1)
+                initLevelMinus1();
+            else if (nLevel == 0)
+                initLevel0();
+            else
+                initLevel1();
 		}
 	}
 
@@ -197,27 +221,23 @@ public class Game implements GameModel{
 		int keepPoints = this.points;
 		int keepLives = this.numLives;
 
-		if (nLevel == 0) //recarga level
-			initLevel0();
-		else
-			initLevel1();
+		 //recarga level
+        if (nLevel == -1)
+            initLevelMinus1();
+        else if (nLevel == 0)
+            initLevel0();
+        else
+            initLevel1();
 
 		this.points = keepPoints;
 		this.numLives = keepLives;
 	}
 
 	public void reset(int level) {
-		if (level == 0 || level == 1)
+        if (level == -1 || level == 0 || level == 1)
 			this.nLevel = level;
 		reset();
 	}
-	
-	//public void removeGoomba(tp1.logic.gameobjects.Goomba g) {
-    	//gameObjects.removeGoomba(g);
-    //    if (g != null) g.die();         // marca el Goomba como muerto
-    //       // gameObjects.clean(); // lo elimina en la siguiente limpieza
-
-	//}
 
 	public void addAction(Action a) {
         actions.add(a);

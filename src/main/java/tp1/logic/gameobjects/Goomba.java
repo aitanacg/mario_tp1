@@ -5,7 +5,12 @@ import tp1.logic.Position;
 
 public class Goomba extends MovingObject {
 
-    private int dx = -1;
+    //private int dx = -1;
+
+    //constructor vacio para factoria
+    protected Goomba() {
+        super(null, null);
+    }
 
     public Goomba(Game game, Position pos) {
         super(game,pos);
@@ -77,5 +82,29 @@ public class Goomba extends MovingObject {
     @Override public boolean receiveInteraction(Goomba g)  { return false; }
     @Override public boolean receiveInteraction(ExitDoor d){ return false; }
     @Override public boolean receiveInteraction(Land l)    { return false; }
+
+    //FACTORIA
+
+    public GameObject parse(String[] words, Game game) {
+        if (!GameObject.matchesType(words[1], "GOOMBA", "G"))
+            return null;
+
+        Position pos = GameObject.parsePosition(words[0]);
+        if (pos == null) return null;
+
+        Goomba g = new Goomba(game, pos);
+
+        // Dirección opcional
+        if (words.length >= 3) {
+            String w = words[2].toUpperCase();
+            if (w.equals("RIGHT") || w.equals("R"))
+                g.setDirX(1);
+            else if (w.equals("LEFT") || w.equals("L"))
+                g.setDirX(-1);
+        }
+
+        return g;
+    }
+
 
 }

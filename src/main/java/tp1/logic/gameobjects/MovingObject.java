@@ -8,6 +8,14 @@ public abstract class MovingObject extends GameObject {
     protected int dirX = 0;
     protected boolean falling = false;
 
+    public void setDirX(int dx) {
+        this.dirX = dx;
+    }
+
+    public int getDirX() {
+        return this.dirX;
+    }
+
     public MovingObject(Game game, Position pos) {
         super(game, pos);
     }
