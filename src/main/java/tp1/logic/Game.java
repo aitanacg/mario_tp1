@@ -3,8 +3,9 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 import tp1.logic.gameobjects.*;
+import tp1.logic.GameModel;
 
-public class Game {
+public class Game implements GameModel{
 
 	public static final int DIM_X = 30;
 	public static final int DIM_Y = 15;
@@ -33,10 +34,14 @@ public class Game {
 	public Game(int nLevel) {
 		this.nLevel = nLevel;
 		resetScoreAndState();
-		if (nLevel == 0)
-			initLevel0();
-		else
-			initLevel1();
+        if (nLevel == -1)
+            initLevelMinus1();
+        else if (nLevel == 0)
+            initLevel0();
+        else if (nLevel == 2)
+            initLevel2();
+        else
+            initLevel1();
 	}
 	
 	private void resetScoreAndState() {
@@ -79,29 +84,51 @@ public class Game {
 		gameObjects.add(new Goomba(this, new Position(0, 19)));
 	}
 
+    private void initLevelMinus1() {
+        this.nLevel = -1;
+
+        this.remainingTime = 100;
+        this.points = 0;
+        this.numLives = 3;
+
+        //tablero vacio
+        gameObjects = new GameObjectContainer();
+
+        //anado mario chiquito
+        this.mario = new Mario(this, new Position(0, 0));
+        gameObjects.add(this.mario);
+    }
+
+    private void initLevel2() {
+        initLevel1();
+        gameObjects.add(new Box(this, new Position(9,4), false)); //box (9,4)
+        gameObjects.add(new Mushroom(this, new Position(12,8))); //mushroom(12,8)
+        gameObjects.add(new Mushroom(this, new Position(2,20))); //mushroom (2,20)
+    }
+
     private void initCommonTerrain() {
         gameObjects = new GameObjectContainer();
         //suelo inicial
         for (int col = 0; col < 15; col++) {
-            gameObjects.add(new Land(new Position(13, col)));
-            gameObjects.add(new Land(new Position(14, col)));
+            gameObjects.add(new Land(this, new Position(13, col)));
+            gameObjects.add(new Land(this,new Position(14, col)));
         }
 
         //plataformas comunes
-        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 9)));
-        gameObjects.add(new Land(new Position(Game.DIM_Y - 3, 12)));
+        gameObjects.add(new Land(this,new Position(Game.DIM_Y - 3, 9)));
+        gameObjects.add(new Land(this,new Position(Game.DIM_Y - 3, 12)));
 
         for (int col = 17; col < Game.DIM_X; col++) {
-            gameObjects.add(new Land(new Position(Game.DIM_Y - 2, col)));
-            gameObjects.add(new Land(new Position(Game.DIM_Y - 1, col)));
+            gameObjects.add(new Land(this,new Position(Game.DIM_Y - 2, col)));
+            gameObjects.add(new Land(this,new Position(Game.DIM_Y - 1, col)));
         }
 
         //plataformas altas
-        gameObjects.add(new Land(new Position(9, 2)));
-        gameObjects.add(new Land(new Position(9, 5)));
-        gameObjects.add(new Land(new Position(9, 6)));
-        gameObjects.add(new Land(new Position(9, 7)));
-        gameObjects.add(new Land(new Position(5, 6)));
+        gameObjects.add(new Land(this,new Position(9, 2)));
+        gameObjects.add(new Land(this,new Position(9, 5)));
+        gameObjects.add(new Land(this,new Position(9, 6)));
+        gameObjects.add(new Land(this,new Position(9, 7)));
+        gameObjects.add(new Land(this,new Position(5, 6)));
 
         //salto final tipo escalera
         int tamX = 8;
@@ -109,12 +136,12 @@ public class Game {
         int posIniY = Game.DIM_Y - 3;
         for (int col = 0; col < tamX; col++) {
             for (int fila = 0; fila < col + 1; fila++) {
-                gameObjects.add(new Land(new Position(posIniY - fila, posIniX + col)));
+                gameObjects.add(new Land(this,new Position(posIniY - fila, posIniX + col)));
             }
         }
 
         //exit
-        gameObjects.add(new ExitDoor(new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
+        gameObjects.add(new ExitDoor(this, new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
     }
 
 	public String positionToString(int col, int row) {
@@ -136,28 +163,36 @@ public class Game {
 
 	public void update() { //baja el tiempo uno si no ha acabado
         if (finished) return;
+
         updateTurn();
 
-		//if (remainingTime > 0) {
-		//	remainingTime--;
-			if (remainingTime == 0) { //game over si no hay tiempo
-				finished = true;
-				playerLost = true;
-			}
-		//}
+        if (!finished && remainingTime > 0) {
+            remainingTime--;
+            if (remainingTime == 0) {
+                finished = true;
+                playerLost = true;
+            }
+        }
 
-		actions.clear(); //a ver si me soluciona el tremendo bug del up :')
+        actions.clear(); //a ver si me soluciona el tremendo bug del up :')
 	}
 
 	public void reset(Integer mayLevel){
 		int target = (mayLevel == null) ? this.nLevel : mayLevel;
-    	if (target != 0 && target != 1) target = this.nLevel;
+        if (target != -1 && target != 0 && target != 1 && target != 2)
+            target = this.nLevel;
 
  		int keepPoints = this.points;
     	int keepLives  = this.numLives;
 
-    	if (target == 0) initLevel0();
-    	else             initLevel1();
+        if (target == -1)
+            initLevelMinus1();
+        else if (target == 0)
+            initLevel0();
+        else if (target == 1)
+            initLevel1();
+        else if (target == 2)
+            initLevel2();
 
     	this.points   = keepPoints;
     	this.numLives = keepLives;
@@ -178,10 +213,14 @@ public class Game {
 		loseLife();
 
 		if (!finished) {
-			if (nLevel == 0)//si queda vidas pos reset
-				initLevel0();
-			else
-				initLevel1();
+            if (nLevel == -1)
+                initLevelMinus1();
+            else if (nLevel == 0)
+                initLevel0();
+            else if (nLevel == 2)
+                initLevel2();
+            else
+                initLevel1();
 		}
 	}
 
@@ -195,29 +234,27 @@ public class Game {
 		int keepPoints = this.points;
 		int keepLives = this.numLives;
 
-		if (nLevel == 0) //recarga level
-			initLevel0();
-		else
-			initLevel1();
+		 //recarga level
+        if (nLevel == -1)
+            initLevelMinus1();
+        else if (nLevel == 0)
+            initLevel0();
+        else if (nLevel == 2)
+            initLevel2();
+        else
+            initLevel1();
 
 		this.points = keepPoints;
 		this.numLives = keepLives;
 	}
 
 	public void reset(int level) {
-		if (level == 0 || level == 1)
+        if (level == -1 || level == 0 || level == 1|| level == 2)
 			this.nLevel = level;
 		reset();
 	}
-	
-	public void removeGoomba(tp1.logic.gameobjects.Goomba g) {
-    	gameObjects.removeGoomba(g);
-	}	
 
 	public void addAction(Action a) {
-		//List<Action> acciones = new ArrayList<>();
-		//acciones.add(a);
-		//actions.add(acciones);
         actions.add(a);
 	}
 
@@ -229,10 +266,6 @@ public class Game {
 		this.finished = true;
 		this.playerWon = true;
 	}
-
-	//public void doInteractionsFrom(Mario mario) {
-	//	gameObjects.doInteractionsFrom(mario);
-	//}
 
 	public void addPoints(int pts) {
 		this.points += pts;
@@ -247,9 +280,7 @@ public class Game {
 
     //un turno hace el update
     public void updateTurn() {
-        mario.update();      //mario hasta 4 movimientos y resta 1t
-        gameObjects.updateAll();        //goombas
-        gameObjects.doInteractions();        //interacciones
+        gameObjects.updateAll();    //goombas
     }
 
 }

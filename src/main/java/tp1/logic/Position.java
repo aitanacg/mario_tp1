@@ -36,14 +36,7 @@ public final class Position {
 
 	@Override
 	public boolean equals(Object o) {
-
-		//me banearon el uso de instanceof :(
-		// if(this == o) return true; //mismo objeto, iguales
-		// if (!(o instanceof Position)) return false; //si no es position no
-		// Position p = (Position) o;
-		// return row == p.row && col == p.col; //comparo que sean iguales
-
-		if (o == null || o.getClass() != getClass())
+        if (o == null || o.getClass() != getClass())
 			return false;
 		Position p = (Position) o;
 		return row == p.row && col == p.col;

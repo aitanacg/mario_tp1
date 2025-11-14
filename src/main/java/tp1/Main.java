@@ -1,9 +1,6 @@
 
 	/**
-	 * Los tests no funcionan demasiado bien pero el codigo compila, y en terminal se ve y se puede jugar perfectamente
-	 * Por lo que veo los test no pueden leer bien lo que imprimo por la terminal, y no detecta ni a mario ni a otras entidades
-	 * Las fisicas del juego las he implementado como mejor he podido interpretarlas
- 	 * estan explicadas a lo largo del codigo y en mario.java explica los movimientos de mario
+	 * lloro
 	 * 
 	 */
 
@@ -21,14 +18,14 @@ import tp1.view.Messages;
 public class Main {
 
 	/**
-	 * Entry point
+	 * Entry pointpackage tp1.logic.gameobjects;
 	 * 
 	 * @param args Arguments for the game.
 	 */
 	public static void main(String[] args) {
 		// Required to avoid issues with tests
         Locale.of("es", "ES");
-		
+
 		try {
 			
 			int nLevel = 1;
