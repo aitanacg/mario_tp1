@@ -60,6 +60,9 @@ public class Land extends GameObject {
         return false;//same
     }
 
+    @Override
+    public boolean receiveInteraction(Mushroom m) { return false; }
+
     //FACTRIA
     public GameObject parse(String[] words, Game game) {
         if (!GameObject.matchesType(words[1], "LAND", "L"))

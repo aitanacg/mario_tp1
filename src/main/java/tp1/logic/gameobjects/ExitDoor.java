@@ -58,6 +58,9 @@ public class ExitDoor extends GameObject {
         return false;
     }
 
+    @Override
+    public boolean receiveInteraction(Mushroom m) { return false; }
+
     //FACTORIA
 
     public GameObject parse(String[] words, Game game) {

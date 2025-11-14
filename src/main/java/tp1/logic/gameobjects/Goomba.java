@@ -5,8 +5,6 @@ import tp1.logic.Position;
 
 public class Goomba extends MovingObject {
 
-    //private int dx = -1;
-
     //constructor vacio para factoria
     protected Goomba() {
         super(null, null);
@@ -63,17 +61,20 @@ public class Goomba extends MovingObject {
 
         boolean pisa = m.isFalling() && mp.equals(gp);
         if (pisa) {
-            System.out.println("Mario pisa a goomba");
             die();
             game.addPoints(100);
             m.setFalling(false);
             return true;
         }
 
-        // Si no viene cayendo muere mario :(
+        //si no viene cayendo muere mario :(
         if (mp.equals(gp)) {
-            System.out.println("Mario muere por chocar con goomba");
-            game.marioDies();
+            if (!m.isBig()) {
+                game.marioDies();
+            }
+            else {
+                m.setBig(false);
+            }
             return true;
         }
         return false;
@@ -82,6 +83,7 @@ public class Goomba extends MovingObject {
     @Override public boolean receiveInteraction(Goomba g)  { return false; }
     @Override public boolean receiveInteraction(ExitDoor d){ return false; }
     @Override public boolean receiveInteraction(Land l)    { return false; }
+    @Override public boolean receiveInteraction(Mushroom m) { return false; }
 
     //FACTORIA
 

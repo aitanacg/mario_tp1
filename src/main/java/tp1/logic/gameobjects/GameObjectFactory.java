@@ -12,8 +12,9 @@ public class GameObjectFactory {
             new Land(),
             new ExitDoor(),
             new Goomba(),
-            new Mario()
-            //aqui creo que luego van el setoncios y el box
+            new Mario(),
+            new Mushroom(),
+            new Box()
     );
 
     public static GameObject parse(String[] words, Game game) {

@@ -42,7 +42,6 @@ public class GameObjectContainer {
     }
 
     public void doInteractions() {
-        System.out.println("interacciones funcionan");
         final int n = objects.size();
         for (int i = 0; i < n; i++) {
             GameObject a = objects.get(i);

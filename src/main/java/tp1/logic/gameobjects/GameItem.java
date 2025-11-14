@@ -14,4 +14,6 @@ public interface GameItem {
     boolean receiveInteraction(ExitDoor obj);
     boolean receiveInteraction(Mario obj);
     boolean receiveInteraction(Goomba obj);
+    boolean receiveInteraction(Mushroom obj);
+    boolean receiveInteraction(Box obj);
 }

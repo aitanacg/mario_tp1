@@ -50,6 +50,12 @@ public abstract class GameObject implements GameItem {
     public boolean receiveInteraction(Goomba g)  { return false; }
     public boolean receiveInteraction(ExitDoor e){ return false; }
     public boolean receiveInteraction(Land l)    { return false; }
+    public boolean receiveInteraction(Mushroom m) {
+        return false;
+    }
+    public boolean receiveInteraction(Box b) { return false; }
+
+
 
     //FACTORIA................. si
 
@@ -69,7 +75,7 @@ public abstract class GameObject implements GameItem {
             String[] p = s.split(",");
             int r = Integer.parseInt(p[0]);
             int c = Integer.parseInt(p[1]);
-            return new Position(c, r); // OJO con tu sistema si invertías coordenadas
+            return new Position(c, r);
         } catch (Exception e) {
             return null;
         }

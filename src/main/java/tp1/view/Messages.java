@@ -104,4 +104,7 @@ public class Messages {
 	public static final String MARIO_RIGHT = "🧍";//"🧍➡️";
 	public static final String MARIO_LEFT = "🚶";//"⬅️🚶";
 	public static final String GOOMBA = "🐻";
+    public static final String MUSHROOM = "\uD83C\uDF44";
+    public static final String BOX_FULL = "?";
+    public static final String BOX_EMPTY = "0";
 }

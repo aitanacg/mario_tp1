@@ -38,6 +38,8 @@ public class Game implements GameModel{
             initLevelMinus1();
         else if (nLevel == 0)
             initLevel0();
+        else if (nLevel == 2)
+            initLevel2();
         else
             initLevel1();
 	}
@@ -95,6 +97,13 @@ public class Game implements GameModel{
         //anado mario chiquito
         this.mario = new Mario(this, new Position(0, 0));
         gameObjects.add(this.mario);
+    }
+
+    private void initLevel2() {
+        initLevel1();
+        gameObjects.add(new Box(this, new Position(9,4), false)); //box (9,4)
+        gameObjects.add(new Mushroom(this, new Position(12,8))); //mushroom(12,8)
+        gameObjects.add(new Mushroom(this, new Position(2,20))); //mushroom (2,20)
     }
 
     private void initCommonTerrain() {
@@ -170,7 +179,7 @@ public class Game implements GameModel{
 
 	public void reset(Integer mayLevel){
 		int target = (mayLevel == null) ? this.nLevel : mayLevel;
-        if (target != -1 && target != 0 && target != 1)
+        if (target != -1 && target != 0 && target != 1 && target != 2)
             target = this.nLevel;
 
  		int keepPoints = this.points;
@@ -180,8 +189,10 @@ public class Game implements GameModel{
             initLevelMinus1();
         else if (target == 0)
             initLevel0();
-        else
+        else if (target == 1)
             initLevel1();
+        else if (target == 2)
+            initLevel2();
 
     	this.points   = keepPoints;
     	this.numLives = keepLives;
@@ -206,6 +217,8 @@ public class Game implements GameModel{
                 initLevelMinus1();
             else if (nLevel == 0)
                 initLevel0();
+            else if (nLevel == 2)
+                initLevel2();
             else
                 initLevel1();
 		}
@@ -226,6 +239,8 @@ public class Game implements GameModel{
             initLevelMinus1();
         else if (nLevel == 0)
             initLevel0();
+        else if (nLevel == 2)
+            initLevel2();
         else
             initLevel1();
 
@@ -234,7 +249,7 @@ public class Game implements GameModel{
 	}
 
 	public void reset(int level) {
-        if (level == -1 || level == 0 || level == 1)
+        if (level == -1 || level == 0 || level == 1|| level == 2)
 			this.nLevel = level;
 		reset();
 	}

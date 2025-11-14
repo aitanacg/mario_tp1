@@ -129,11 +129,6 @@ public class Mario extends MovingObject {
             }
         }
         justDidDown = false;
-        System.out.println("mario pos= " + position +
-                " falling=" + isFalling() +
-                " jumping=" + jumping);
-
-
     }
 
     //aplica una accion
@@ -237,6 +232,16 @@ public class Mario extends MovingObject {
         return false;
     }
 
+    @Override
+    public boolean receiveInteraction(Mushroom m) {
+        if (!this.isBig()) {  //mario toca seta
+            this.setBig(true);
+            game.addPoints(50);
+        }
+        m.die();
+        return true;
+    }
+
     //FACTORIA
 
     public GameObject parse(String[] words, Game game) {
@@ -248,7 +253,7 @@ public class Mario extends MovingObject {
 
         Mario m = new Mario(game, pos);
 
-        // dirección opcional
+        //dir opc
         if (words.length >= 3) {
             String w = words[2].toUpperCase();
             if (w.equals("LEFT") || w.equals("L"))
@@ -257,7 +262,7 @@ public class Mario extends MovingObject {
                 m.setFacing(Facing.RIGHT);
         }
 
-        // tamaño opcional
+        //tamano opc
         if (words.length >= 4) {
             String w = words[3].toUpperCase();
             if (w.equals("BIG") || w.equals("B"))
