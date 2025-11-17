@@ -18,8 +18,8 @@ public class GameObjectFactory {
     );
 
     public static GameObject parse(String[] words, Game game) {
-        for (GameObject proto : availableObjects) {
-            GameObject g = proto.parse(words, game);
+        for (GameObject objetito : availableObjects) {
+            GameObject g = objetito.parse(words, game);
             if (g != null)
                 return g;
         }

@@ -1,4 +1,5 @@
 package tp1.logic;
+//para el mundo
 
 public interface GameWorld {
 

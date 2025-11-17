@@ -76,7 +76,7 @@ public class Mario extends MovingObject {
 
     /**
      * Para el movimiento, Mario puede hacer un unico movimiento
-     * no aplica ni gravedad, ni interacciones ni valida turnos o resta time (en Game)
+     * no aplica ni gravedad, ni interacciones ni valida turnos o resta time (eso en Game)
      */
     @Override
     public void update() {
@@ -94,7 +94,7 @@ public class Mario extends MovingObject {
                 moves++;
             }
         }
-        if (!jumping && saltitosLeft > 0) saltitosLeft = 0; //AAAA
+        if (!jumping && saltitosLeft > 0) saltitosLeft = 0;
         //gravedad y salto
         //mientras queden saltitos
         if (jumping && saltitosLeft > 0) {

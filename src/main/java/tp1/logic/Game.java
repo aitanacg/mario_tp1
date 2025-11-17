@@ -174,7 +174,7 @@ public class Game implements GameModel{
             }
         }
 
-        actions.clear(); //a ver si me soluciona el tremendo bug del up :')
+        actions.clear(); //solucionó yay
 	}
 
 	public void reset(Integer mayLevel){

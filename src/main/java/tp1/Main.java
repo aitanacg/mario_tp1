@@ -1,7 +1,7 @@
 
 	/**
-	 * lloro
-	 * 
+	 * creo que los tests no van demasiado bien otra vez, pero he decidido solo probar si funcionaba
+	 * por mi cuenta, y creo que va bastante bien
 	 */
 
 package tp1;
@@ -19,7 +19,7 @@ public class Main {
 
 	/**
 	 * Entry pointpackage tp1.logic.gameobjects;
-	 * 
+	 * que
 	 * @param args Arguments for the game.
 	 */
 	public static void main(String[] args) {

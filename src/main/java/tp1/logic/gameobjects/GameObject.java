@@ -63,12 +63,12 @@ public abstract class GameObject implements GameItem {
         return null; //por default nada
     }
     //dev true si words[1] coincide con tipo
-    protected static boolean matchesType(String word, String full, String shortName) {
+    protected static boolean matchesType(String word, String full, String shortName) { //para no repetir el G GOOMBAo lo que sea
         String w = word.toUpperCase();
         return w.equals(full) || w.equals(shortName);
     }
 
-    //interpreta mis coords de (miau,miau)
+    //interpreta mis coords de (mi,au)
     protected static Position parsePosition(String s) {
         try {
             s = s.replace("(", "").replace(")", "");

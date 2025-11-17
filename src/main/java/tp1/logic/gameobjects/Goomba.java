@@ -32,7 +32,7 @@ public class Goomba extends MovingObject {
         }
 
         //mov horizontal con rebote boing
-        int nextC = position.getCol() + (dirX == 0 ? -1 : dirX); //si dirX=0 pa la izq
+        int nextC = position.getCol() + (dirX == 0 ? -1 : dirX); //si no tiene dirX va para la izq por def
         int r = position.getRow();
 
         boolean hitsWall = (nextC < 0 || nextC >= Game.DIM_X);

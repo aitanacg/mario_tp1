@@ -70,7 +70,11 @@ public class GameObjectContainer {
     }
 
     private void clean() {
-        objects.removeIf(o -> !o.isAlive());
+        for (int i = objects.size() - 1; i >= 0; i--) {
+            if (!objects.get(i).isAlive()) {
+                objects.remove(i);
+            }
+        }
     }
 
     public void clear() { objects.clear(); }

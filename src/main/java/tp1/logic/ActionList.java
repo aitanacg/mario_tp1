@@ -45,7 +45,7 @@ public class ActionList {
     }
     //devuelve una copia
     public List<Action> asList() {
-        return List.copyOf(actions);
+        return new ArrayList<>(actions);
     }
     //si cumple el limite, pos si acaso
     public boolean isValid() {

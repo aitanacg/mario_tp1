@@ -6,14 +6,14 @@ import tp1.view.Messages;
 
 public class Box extends GameObject {
 
-    private boolean isEmpty;
+ private boolean isEmpty;
 
-    public Box() { //vacio para factoría
+    public Box() { //vacio para factoria
         super(null, null);
         this.isEmpty = false;
     }
 
-    public Box(Game game, Position pos, boolean empty) { //constructor def
+    public Box(Game game, Position pos, boolean empty) { //constructor default
         super(game, pos);
         this.isEmpty = empty;
     }
@@ -72,19 +72,18 @@ public class Box extends GameObject {
     public boolean receiveInteraction(Mushroom m) { return false; }
 
     //FACTORIA
-
     @Override
     public GameObject parse(String[] words, Game game) {
 
         if (!GameObject.matchesType(words[1], "BOX", "B"))
             return null;
 
-        Position p = GameObject.parsePosition(words[0]);
+        Position p = GameObject.parsePosition(words[0]); //en todas, me interpreta el (1,2)
         if (p == null) return null;
 
         boolean empty = false;
 
-        if (words.length >= 3) {
+        if (words.length >= 3) { //en caso de box, puede estar o llena o empty
             String w = words[2].toUpperCase();
             if (w.equals("EMPTY") || w.equals("E"))
                 empty = true;
