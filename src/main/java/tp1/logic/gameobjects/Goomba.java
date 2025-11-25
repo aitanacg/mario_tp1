@@ -19,6 +19,8 @@ public class Goomba extends MovingObject {
         return tp1.view.Messages.GOOMBA;
     }
 
+
+    //aplica gravedad, mov horizontal y rebota
     @Override
     public void update() {
 
@@ -88,15 +90,15 @@ public class Goomba extends MovingObject {
     //FACTORIA
 
     public GameObject parse(String[] words, Game game) {
-        if (!GameObject.matchesType(words[1], "GOOMBA", "G"))
+        if (!GameObject.matchesType(words[1], "GOOMBA", "G"))  //es goomba??
             return null;
 
-        Position pos = GameObject.parsePosition(words[0]);
+        Position pos = GameObject.parsePosition(words[0]); //parseo la posicion
         if (pos == null) return null;
 
         Goomba g = new Goomba(game, pos);
 
-        // Dirección opcional
+        //direccionn opcional
         if (words.length >= 3) {
             String w = words[2].toUpperCase();
             if (w.equals("RIGHT") || w.equals("R"))

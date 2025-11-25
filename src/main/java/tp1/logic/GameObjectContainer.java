@@ -1,5 +1,5 @@
 package tp1.logic;
-
+//almacena todos los obj y gestiona interacciones, actualiza turnos y limpia muertos
 import tp1.logic.gameobjects.*;
 import tp1.view.Messages;
 import java.util.ArrayList;
@@ -34,31 +34,37 @@ public class GameObjectContainer {
         return Messages.EMPTY;
     }
 
-    //el juego ciclo
+    //el ciclo de juego real
     public void updateAll() {
-        for (GameObject obj : objects) obj.update();  //cada obj se actualiza
+        for (GameObject obj : objects) obj.update();  //cada obj se actualiza, unos hacen cosas y otros no
+        //objects =[Mario, Goomba, Mushroom, Land, ExitDoor, Box], bucle for each
         doInteractions(); //interacciones (b recibe a a en el dd)
+        //hace la doble interacción si estan dos en la misma casilla, DOUBLE DISPATCH
         clean(); //recojo cadaveres
     }
 
     public void doInteractions() {
-        final int n = objects.size();
+        final int n = objects.size(); //primero miro cuantos hay
         for (int i = 0; i < n; i++) {
             GameObject a = objects.get(i);
-            if (!a.isAlive()) continue;
+            if (!a.isAlive()) continue; //si no, me salgo del for
 
-            for (int j = i + 1; j < n; j++) {
+            for (int j = i + 1; j < n; j++) { //empiexa con i+1 para no repetir pares
                 GameObject b = objects.get(j);
                 if (!b.isAlive()) continue;
-
+                //mira si estan el la misma posicion o apilados, interactuan mediante double dispatch
                 boolean overlap = a.occupies(b.getPosition()) || b.occupies(a.getPosition()) || areStacked(a, b);
                 if (overlap) {
-                    a.interactWith(b);
+                    a.interactWith(b); //precioso double dispatch, asi cada uno decide su reacción
                     b.interactWith(a);
+                    //el dd permita a cada obj interactuar con otro sin preguntar su clase con instanceof
+                    //el interactWith solo decide con quien interactua, el recieve interacion hace cosas
+                    //Ex: goomba recibe a mario falling: goomba muere
+                    //Ex: Mario recibe a goomba y no cae: mario muere
                 }
             }
         }
-        clean();
+        clean(); //elimina muertos
     }
 
     private boolean areStacked(GameObject a, GameObject b) {

@@ -1,5 +1,6 @@
 package tp1.logic;
-
+//es la cola de acciones por turno: max 4
+//mario las consume en su update, por ej el STOP no consume ni t ni cuenta como mov
 import java.util.ArrayList;
 import java.util.List;
 

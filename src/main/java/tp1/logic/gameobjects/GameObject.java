@@ -1,9 +1,12 @@
 package tp1.logic.gameobjects;
-
+//es la base de todos los ebjetos, no puedo crear GameObjects pero si sus hijos
+// mario, goomba, land, exitdoor, box, mushroom
+//contiene Position, Game, si esta vivo isALive...
+//Implementa la factoria con parsePosition y matchesType
 import tp1.logic.Game;
 import tp1.logic.Position;
 
-public abstract class GameObject implements GameItem {
+public abstract class GameObject implements GameItem { //promete implementar todo lo de GameItem
 
     protected Position position;
     protected Game game;
@@ -54,6 +57,8 @@ public abstract class GameObject implements GameItem {
         return false;
     }
     public boolean receiveInteraction(Box b) { return false; }
+
+    //usamos el double dispatch, para seber quien hace que al chocar dos objetos
 
 
 

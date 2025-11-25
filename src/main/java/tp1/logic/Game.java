@@ -1,5 +1,5 @@
 package tp1.logic;
-
+//gestiona tiempo, vidas, niveles
 import java.util.ArrayList;
 import java.util.List;
 import tp1.logic.gameobjects.*;
@@ -164,7 +164,7 @@ public class Game implements GameModel{
 	public void update() { //baja el tiempo uno si no ha acabado
         if (finished) return;
 
-        updateTurn();
+        updateTurn(); //objetos y todo lo que importa, llama a updateAll() de GamObjCon
 
         if (!finished && remainingTime > 0) {
             remainingTime--;

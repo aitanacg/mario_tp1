@@ -76,7 +76,7 @@ public class Mario extends MovingObject {
 
     /**
      * Para el movimiento, Mario puede hacer un unico movimiento
-     * no aplica ni gravedad, ni interacciones ni valida turnos o resta time (eso en Game)
+     * consume aciiones, mueve a mario, aplica gravedad, gestiona saltitos, detecta muerte por caer resetea flags
      */
     @Override
     public void update() {
@@ -213,6 +213,8 @@ public class Mario extends MovingObject {
     public boolean interactWith(GameItem other) {
         return other.receiveInteraction(this);
     }
+    //llama al recieveInteraction del otro objeto y ese objeto decide que pasa
+    // por ej el goomba decide que le pasa a mario, si muere o no
 
     @Override
     public boolean receiveInteraction(Goomba g) {
@@ -245,15 +247,15 @@ public class Mario extends MovingObject {
     //FACTORIA
 
     public GameObject parse(String[] words, Game game) {
-        if (!GameObject.matchesType(words[1], "MARIO", "M"))
+        if (!GameObject.matchesType(words[1], "MARIO", "M"))  //es mario?
             return null;
 
-        Position pos = GameObject.parsePosition(words[0]);
+        Position pos = GameObject.parsePosition(words[0]); //identifico la posicion
         if (pos == null) return null;
 
         Mario m = new Mario(game, pos);
 
-        //dir opc
+        //dir opcional
         if (words.length >= 3) {
             String w = words[2].toUpperCase();
             if (w.equals("LEFT") || w.equals("L"))
@@ -262,7 +264,7 @@ public class Mario extends MovingObject {
                 m.setFacing(Facing.RIGHT);
         }
 
-        //tamano opc
+        //tamano opcional
         if (words.length >= 4) {
             String w = words[3].toUpperCase();
             if (w.equals("BIG") || w.equals("B"))

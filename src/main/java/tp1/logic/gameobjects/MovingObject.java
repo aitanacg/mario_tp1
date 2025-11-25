@@ -1,5 +1,5 @@
 package tp1.logic.gameobjects;
-
+//clase abstracta de obj que comparten posicion, gravedad, direccion horizontal y dir del mov permitido
 import tp1.logic.Game;
 import tp1.logic.Position;
 
