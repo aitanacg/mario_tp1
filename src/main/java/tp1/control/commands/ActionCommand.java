@@ -1,5 +1,8 @@
 package tp1.control.commands;
 
+import tp1.exceptions.ActionParseException;
+import tp1.exceptions.CommandParseException;
+import tp1.exceptions.CommandExecuteException;
 import tp1.logic.GameModel;
 import tp1.logic.Action;
 import tp1.view.GameView;
@@ -24,32 +27,36 @@ public class ActionCommand extends AbstractCommand {
     }
 
     @Override
-    public Command parse(String[] commandWords) {
-        if (commandWords.length >= 2 && matchCommand(commandWords[0])) {
-            String[] acts = new String[commandWords.length - 1];
-            System.arraycopy(commandWords, 1, acts, 0, acts.length);
-            return new ActionCommand(acts);
-        }
-        return null;
+    public Command parse(String[] commandWords) throws CommandParseException {
+        if (!matchCommand(commandWords[0]))
+            return null;
+
+        if (commandWords.length < 2)
+            throw new CommandParseException(Messages.COMMAND_PARAMETERS_MISSING);
+
+        String[] acts = new String[commandWords.length - 1];
+        System.arraycopy(commandWords, 1, acts, 0, acts.length);
+
+        return new ActionCommand(acts);
     }
 
     @Override
-    public void execute(GameModel game, GameView view) {
-        if (actions == null || actions.length == 0) {
-            view.showError(Messages.COMMAND_PARAMETERS_MISSING);
-            return;
-        }
+    public void execute(GameModel game, GameView view) throws CommandExecuteException {
 
-        for (String s : actions) {
-            Action act = Action.parse(s);
-            if (act == null) {
-                view.showError(Messages.UNKNOWN_ACTION.formatted(s));
-                return;
+        try {
+            for (String s : actions) {
+                Action act = Action.parse(s); //pot llencar actionparsecommand
+                game.addAction(act);
             }
-            game.addAction(act);
-        }
 
-        game.updateTurn(); //hace turno
-        view.showGame(); //dibuja
+            game.updateTurn();//avanzo turno
+            view.showGame();//dibujo
+        }
+        catch (Exception e) { //actionparseexc
+            throw new CommandExecuteException(
+                    Messages.ERROR_COMMAND_EXECUTE,
+                    e
+            );
+        }
     }
 }

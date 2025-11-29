@@ -58,7 +58,7 @@ public class Mario extends MovingObject {
     //lo que ocupa
     public boolean occupies(Position p) { //si es big tmb el la de arriba
         if (p.equals(position)) return true;
-        return big && p.equals(position.translate(0, -1));
+        return big && p.equals(position.up());
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Mario extends MovingObject {
         //gravedad y salto
         //mientras queden saltitos
         if (jumping && saltitosLeft > 0) {
-            Position up = position.translate(0, -1);
+            Position up = position.up();
 
             if (!game.getGameObjectContainer().isSolidAt(up)) {
                 position = up;
@@ -115,7 +115,7 @@ public class Mario extends MovingObject {
         //gravedad si no esta jumping
         else {
             if (!jumping && !justDidDown) {
-                Position below = position.translate(0, +1);
+                Position below = position.down();
 
                 if (!game.getGameObjectContainer().isSolidAt(below)) {
                     position = below;
@@ -155,7 +155,7 @@ public class Mario extends MovingObject {
         //salto
         if (a == Action.UP) {
             if (jumping || saltitosLeft > 0) return true;
-            Position below = position.translate(0, +1);
+            Position below = position.down();
             //solo inicia salto si está tocando el suelo
             if (game.getGameObjectContainer().isSolidAt(below)) {
                 jumping = true;
@@ -172,10 +172,10 @@ public class Mario extends MovingObject {
             setFalling(true);
             justDidDown = true;
 
-            Position next = position.translate(0, +1);
+            Position next = position.down();
             while (isInsideBoard(next) && !game.getGameObjectContainer().isSolidAt(next)) {
                 position = next;
-                next = position.translate(0, +1);
+                next = position.down();
             }
 
             return true;
@@ -196,7 +196,7 @@ public class Mario extends MovingObject {
         if (game.getGameObjectContainer().isSolidAt(p)) return false;
 
         if (big) {
-            Position top = p.translate(0, -1);
+            Position top = p.up();
             if (!isInsideBoard(top)) return false;
             if (game.getGameObjectContainer().isSolidAt(top)) return false;
         }
@@ -204,8 +204,7 @@ public class Mario extends MovingObject {
     }
 
     private boolean isInsideBoard(Position p) {
-        return p.getRow() >= 0 && p.getRow() < Game.DIM_Y
-                && p.getCol() >= 0 && p.getCol() < Game.DIM_X;
+        return p.isInBounds(Game.DIM_X, Game.DIM_Y);
     }
 
     //INTERACTIONS

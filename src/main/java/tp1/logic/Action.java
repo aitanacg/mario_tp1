@@ -1,5 +1,8 @@
 package tp1.logic;
 
+import tp1.exceptions.ActionParseException;
+import tp1.view.Messages;
+
 /**
  * Represents the allowed actions in the game
  *
@@ -18,25 +21,30 @@ public enum Action {
 	public int getX() {
 		return x;
 	}
-
 	public int getY() {
 		return y;
 	}
 
-	public  static Action parse(String s){
-		if(s == null) throw new IllegalArgumentException("Action is null");
-		String t = s.trim().toUpperCase();
+    public static Action parse(String s) throws ActionParseException {
+        if (s == null) {
+            throw new ActionParseException("Action is null");
+        }
+
+        String t = s.trim().toUpperCase();
         switch (t) {
             case "L": case "LEFT":  return LEFT;
             case "R": case "RIGHT": return RIGHT;
             case "U": case "UP":    return UP;
             case "D": case "DOWN":  return DOWN;
-            case "S": case "STOP": 
-            case "NONE": return STOP;
+            case "S": case "STOP":
+            case "NONE":            return STOP;
             default:
-                throw new IllegalArgumentException("Unknown action: " + s);
+                // mensaje bonito usando Messages
+                throw new ActionParseException(
+                        Messages.UNKNOWN_ACTION.formatted(s)
+                );
         }
-	}
+    }
 	
 	
 }

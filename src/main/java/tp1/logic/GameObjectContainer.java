@@ -71,8 +71,13 @@ public class GameObjectContainer {
         Position pa = a.getPosition();
         Position pb = b.getPosition();
 
-        return (pa.getCol() == pb.getCol() &&
-                (pa.getRow() + 1 == pb.getRow() || pb.getRow() + 1 == pa.getRow()));
+        //return (pa.getCol() == pb.getCol() &&
+        //        (pa.getRow() + 1 == pb.getRow() || pb.getRow() + 1 == pa.getRow()));
+
+
+        //a justo arriba de b o al reves
+
+        return pa.up().equals(pb) || pb.up().equals(pa);
     }
 
     private void clean() {

@@ -1,5 +1,7 @@
 package tp1.control.commands;
 
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
@@ -24,7 +26,7 @@ public class ResetCommand extends AbstractCommand{
     }
 
     @Override
-    public Command parse(String[] words) {
+    public Command parse(String[] words) throws CommandParseException{
 
         if (!matchCommand(words[0]))
             return null;
@@ -40,23 +42,30 @@ public class ResetCommand extends AbstractCommand{
                 return new ResetCommand(lvl);
             }
             catch (NumberFormatException e) {
-                return null; //si  no es un numero no lo quiero
+                throw new CommandParseException(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(words[1]), e);
+                //return null; //si  no es un numero no lo quiero
             }
         }
 
-        return null; //si hay algo mas pos tampoco
+        //return null; //si hay algo mas pos tampoco
+        throw new CommandParseException("Incorrect number of arguments for reset command");
     }
 
     @Override
-    public void execute(GameModel gameModel, GameView view) {
-        Game game = (Game) gameModel;
+    public void execute(GameModel gameModel, GameView view) throws CommandExecuteException{
+        try {
+            Game game = (Game) gameModel;
 
-        if (levelToReset == null)
-            game.reset();
-        else
-            game.reset(levelToReset);
+            if (levelToReset == null)
+                game.reset();
+            else
+                game.reset(levelToReset);
 
-        view.showMessage("Game reset!");
-        view.showGame();
+            view.showMessage("Game reset!");
+            view.showGame();
+        }
+        catch (Exception e) {
+            throw new CommandExecuteException("Failed to reset game", e);
+        }
     }
 }

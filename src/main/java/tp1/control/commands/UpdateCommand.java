@@ -1,5 +1,6 @@
 package tp1.control.commands;
 
+import tp1.exceptions.CommandExecuteException;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
@@ -16,8 +17,13 @@ public class UpdateCommand extends NoParamsCommand {
     }
 
     @Override
-    public void execute(GameModel game, GameView view) {
-        game.updateTurn();     //avanza un ciclo
-        view.showGame();   //dibujoo
+    public void execute(GameModel game, GameView view) throws CommandExecuteException{
+        try {
+            game.updateTurn();//avanza un ciclo
+            view.showGame();//dibujoo
+        }
+        catch (Exception e) {
+            throw new CommandExecuteException("Failed to update the game", e);
+        }
     }
 }

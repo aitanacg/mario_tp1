@@ -1,5 +1,6 @@
 package tp1.logic.gameobjects;
 
+import tp1.logic.Action;
 import tp1.logic.Game;
 import tp1.logic.Position;
 import tp1.view.Messages;
@@ -9,12 +10,13 @@ public class Mushroom extends MovingObject {
     //const vacio para factoria
     protected Mushroom() {
         super(null, null);
+        this.dir = Action.RIGHT;
     }
 
     //constructor
     public Mushroom(Game game, Position pos) {
         super(game, pos);
-        this.dirX = 1; //default derecha
+        this.dir = Action.RIGHT; //default derecha
     }
 
     @Override
@@ -31,7 +33,7 @@ public class Mushroom extends MovingObject {
     public void update() {
 
         //gravedad igual que goomba jsjs
-        Position below = position.translate(0, +1);
+        Position below = position.down();
         if (!game.getGameObjectContainer().isSolidAt(below)) {
             position = below;
             if (position.getRow() >= Game.DIM_Y) {
@@ -41,19 +43,22 @@ public class Mushroom extends MovingObject {
         }
 
         //mov horizontal con rebote como goomba vamos
-        int nextC = position.getCol() + (dirX == 0 ? 1 : dirX);
-        int r = position.getRow();
+        Position nextPos = position.next(dir);
 
-        boolean hitsWall = (nextC < 0 || nextC >= Game.DIM_X);
-        boolean solidAhead = !hitsWall &&
-                game.getGameObjectContainer().isSolidAt(new Position(r, nextC));
+        boolean hitsWall = !nextPos.isInBounds(Game.DIM_X, Game.DIM_Y);
+        boolean solidAhead = game.getGameObjectContainer().isSolidAt(nextPos);
 
         if (hitsWall || solidAhead) {
-            dirX = (dirX == 0 ? -1 : -dirX);
+            flipDirection();
             return;
         }
 
-        position = new Position(r, nextC);
+        position = nextPos;
+    }
+
+    private void flipDirection() {
+        if (dir == Action.LEFT) dir = Action.RIGHT;
+        else dir = Action.LEFT;
     }
 
     @Override

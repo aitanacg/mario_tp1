@@ -2,8 +2,11 @@ package tp1.logic;
 //gestiona tiempo, vidas, niveles
 import java.util.ArrayList;
 import java.util.List;
+
+import tp1.exceptions.*;
 import tp1.logic.gameobjects.*;
 import tp1.logic.GameModel;
+import tp1.view.Messages;
 
 public class Game implements GameModel{
 
@@ -164,7 +167,12 @@ public class Game implements GameModel{
 	public void update() { //baja el tiempo uno si no ha acabado
         if (finished) return;
 
-        updateTurn(); //objetos y todo lo que importa, llama a updateAll() de GamObjCon
+        try {
+            updateTurn();//objetos y todo lo que importa, llama a updateAll() de GamObjCon
+        }
+        catch (GameModelException e) {
+            throw new RuntimeException("Unexpected game model error", e); //error del modelo
+        }
 
         if (!finished && remainingTime > 0) {
             remainingTime--;
@@ -254,9 +262,12 @@ public class Game implements GameModel{
 		reset();
 	}
 
-	public void addAction(Action a) {
+    @Override
+    public void addAction(Action a) throws ActionParseException {
+        if (a == null)
+            throw new ActionParseException("Null action");
         actions.add(a);
-	}
+    }
 
 	public ActionList getActions() {
 		return actions;
@@ -279,8 +290,24 @@ public class Game implements GameModel{
     }
 
     //un turno hace el update
-    public void updateTurn() {
-        gameObjects.updateAll();    //goombas
+    public void updateTurn() throws GameModelException{
+            gameObjects.updateAll(); //goombas
+    }
+
+    public void addObject(String[] objWords) throws OffBoardException, ObjectParseException {
+
+        GameObject obj = GameObjectFactory.parse(objWords, this);
+
+        if (obj == null) {
+            throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
+        }
+
+        Position p = obj.getPosition();
+        if (!p.isInBounds(DIM_X, DIM_Y)) {  //valido pos
+            throw new OffBoardException(Messages.OBJECT_OFF_BOARD.formatted(String.join(" ", objWords)));
+        }
+
+        gameObjects.add(obj);
     }
 
 }

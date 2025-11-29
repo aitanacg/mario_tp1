@@ -46,7 +46,8 @@ public class Box extends GameObject {
         Position mp = m.getPosition();
         Position bp = this.position;
 
-        boolean marioDebajo = mp.getRow() == bp.getRow() + 1 && mp.getCol() == bp.getCol();  //solo si es POR ABAJO
+        //boolean marioDebajo = mp.getRow() == bp.getRow() + 1 && mp.getCol() == bp.getCol();  //solo si es POR ABAJO
+        boolean marioDebajo = mp.equals(bp.down());
 
         if (!isEmpty && marioDebajo) {
 
@@ -54,7 +55,7 @@ public class Box extends GameObject {
 
             game.addPoints(50); //me da points yay
 
-            Position arriba = bp.translate(0, -1); //spawneo un mushroom encima
+            Position arriba = bp.up(); //spawneo un mushroom encima
             if (arriba.isInBounds(Game.DIM_Y, Game.DIM_X)) {
                 Mushroom mush = new Mushroom(game, arriba);
                 game.getGameObjectContainer().add(mush);

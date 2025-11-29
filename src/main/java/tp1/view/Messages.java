@@ -107,4 +107,11 @@ public class Messages {
     public static final String MUSHROOM = "\uD83C\uDF44";
     public static final String BOX_FULL = "?";
     public static final String BOX_EMPTY = "0";
+
+
+    //mios
+    public static final String INVALID_GAME_OBJECT = "Invalid game object: %s";
+    public static final String OBJECT_OFF_BOARD = "Object position is off board: %s";
+    public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: \"%s\"";
+
 }

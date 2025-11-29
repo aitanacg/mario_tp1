@@ -1,5 +1,8 @@
 package tp1.control;
 //traduce los commandos a acciones de actionlist
+import tp1.exceptions.CommandException;
+import tp1.exceptions.CommandExecuteException;
+import tp1.exceptions.CommandParseException;
 import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
@@ -25,13 +28,20 @@ public class Controller {
         view.showGame();
 
         while (!game.isFinished()) {
-            String[] words = view.getPrompt();//lee entrada user
-            Command command = CommandGenerator.parse(words); //busca com
+            try {
+                String[] words = view.getPrompt();
+                Command command = CommandGenerator.parse(words);
+                command.execute(game, view);
+                view.showGame();//si no hay eXCepciones
+            }
+            catch (CommandException e) { //one & onlyy excepcion
+                view.showError(e.getMessage());
 
-            if (command != null) {
-                command.execute(game, view);//ejecuta com
-            } else {
-                view.showError(Messages.UNKNOWN_COMMAND.formatted(String.join(" ", words)));
+                Throwable causa = e.getCause();//me hago detective y busco causa
+                while (causa != null) {
+                    view.showError(causa.getMessage());
+                    causa = causa.getCause();
+                }
             }
         }
 
