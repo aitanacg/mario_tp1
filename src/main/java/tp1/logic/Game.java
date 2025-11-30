@@ -1,7 +1,9 @@
 package tp1.logic;
 //gestiona tiempo, vidas, niveles
-import java.util.ArrayList;
-import java.util.List;
+
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import tp1.exceptions.*;
 import tp1.logic.gameobjects.*;
@@ -30,7 +32,10 @@ public class Game implements GameModel{
 
 	private final ActionList actions = new ActionList();
 
-	public GameObjectContainer getGameObjectContainer() {
+    private GameConfiguration fileLoader = null;
+
+
+    public GameObjectContainer getGameObjectContainer() {
 		return gameObjects;
 	}
 	
@@ -45,7 +50,7 @@ public class Game implements GameModel{
             initLevel2();
         else
             initLevel1();
-	}
+    }
 	
 	private void resetScoreAndState() {
     	remainingTime = 100;
@@ -55,8 +60,8 @@ public class Game implements GameModel{
     	playerWon = false;
     	playerLost = false;
 	}
-	
 
+    //NIVELES__________________________________________________________________________
 	//en este nivel mario empieza pequenito y hay mas de un goomba 
 	private void initLevel1() {
 		this.nLevel = 1;
@@ -145,30 +150,24 @@ public class Game implements GameModel{
 
         //exit
         gameObjects.add(new ExitDoor(this, new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
-    }
+    }//FIN NIVELES__________________________________________________________________________
 
 	public String positionToString(int col, int row) {
     	return gameObjects.stringAt(new Position(row, col));
 	}
 
-
 	public boolean isFinished() { return finished; }
-
 	public boolean playerWins() { return playerWon; }
-
-	public boolean playerLoses() { return playerLost; }  
-
+	public boolean playerLoses() { return playerLost; }
 	public int remainingTime() { return remainingTime; }
-
 	public int points() { return points; }
-
 	public int numLives() { return numLives; }
 
-	public void update() { //baja el tiempo uno si no ha acabado
+	public void update() { //baja el tiempo uno si no ha acabado, y marca el final
         if (finished) return;
 
         try {
-            updateTurn();//objetos y todo lo que importa, llama a updateAll() de GamObjCon
+            updateTurn();//objetos y todo lo que importa, llama a updateAll() de GamObjCon, pq es verde esto
         }
         catch (GameModelException e) {
             throw new RuntimeException("Unexpected game model error", e); //error del modelo
@@ -181,25 +180,24 @@ public class Game implements GameModel{
                 playerLost = true;
             }
         }
-
-        actions.clear(); //solucionó yay
+        actions.clear();//me soluciona lo de volar
 	}
 
-	public void reset(Integer mayLevel){
-		int target = (mayLevel == null) ? this.nLevel : mayLevel;
-        if (target != -1 && target != 0 && target != 1 && target != 2)
-            target = this.nLevel;
+	public void reset(Integer Level){
+		int newLevel = (Level == null) ? this.nLevel : Level; //(cond)? true:false, si es null me quedo en el que ya esta
+        if (newLevel != -1 && newLevel != 0 && newLevel != 1 && newLevel != 2)
+            newLevel = this.nLevel;
 
  		int keepPoints = this.points;
     	int keepLives  = this.numLives;
 
-        if (target == -1)
+        if (newLevel == -1)
             initLevelMinus1();
-        else if (target == 0)
+        else if (newLevel == 0)
             initLevel0();
-        else if (target == 1)
+        else if (newLevel == 1)
             initLevel1();
-        else if (target == 2)
+        else if (newLevel == 2)
             initLevel2();
 
     	this.points   = keepPoints;
@@ -234,12 +232,38 @@ public class Game implements GameModel{
 
 	@Override
 	public String toString() {
-		//TODO returns a textual representation of the object
 		return "TODO: Hola soy el game";
 	}
 	
 	public void reset() {
-		int keepPoints = this.points;
+        if (fileLoader != null) { //si cargo un fichero lo usamosss
+            try {
+                this.remainingTime = fileLoader.getRemainingTime();  //estado del game
+                this.points = fileLoader.getPoints();
+                this.numLives = fileLoader.getLives();
+                this.finished = false;
+                this.playerWon = false;
+                this.playerLost = false;
+
+                this.gameObjects.clear(); //quito lo que haya
+
+                this.mario = fileLoader.getMario(); //mario coquette, es un Mario nuevo, no un generico
+                this.gameObjects.add(mario);
+
+                for (GameObject obj : fileLoader.getNPCObjects()) { //cada uno de los nps
+                    this.gameObjects.add(obj);
+                }
+
+            } catch (Exception e) {  //si falla algo me quedo donde antes
+                fileLoader = null;
+                resetScoreAndState();
+                initLevel1();
+            }
+
+            return;
+        }
+        //reset viejo <3
+        int keepPoints = this.points;
 		int keepLives = this.numLives;
 
 		 //recarga level
@@ -289,8 +313,7 @@ public class Game implements GameModel{
         }
     }
 
-    //un turno hace el update
-    public void updateTurn() throws GameModelException{
+    public void updateTurn() throws GameModelException{//un turno hace el update
             gameObjects.updateAll(); //goombas
     }
 
@@ -309,5 +332,46 @@ public class Game implements GameModel{
 
         gameObjects.add(obj);
     }
+
+    public void load(String fileName) throws GameLoadException { //creo un fgc, copio el estado y las copy() y con fileloader hago reset
+
+        FileGameConfiguration fgc = new FileGameConfiguration(fileName, this); //creo config desde fichero
+        this.fileLoader = fgc; //guardo ref para reset
+
+        this.remainingTime = fgc.getRemainingTime();  //actualizo game
+        this.points = fgc.getPoints();
+        this.numLives = fgc.getLives();
+
+        this.gameObjects.clear();  //limpiooo
+
+        this.mario = fgc.getMario();  //viene mi mario amigo
+        this.gameObjects.add(mario);
+        for (GameObject obj : fgc.getNPCObjects()) {  //npcs
+            this.gameObjects.add(obj);
+        }
+
+        this.finished = false;
+        this.playerWon = false;
+        this.playerLost = false;
+    }
+
+    public void save(String fileName) throws GameModelException {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(fileName))) {
+
+            // 1) Escribir estado del juego
+            pw.println(remainingTime + " " + points + " " + numLives);
+
+            // 2) Escribir objetos
+            for (GameObject obj : gameObjects.getObjects()) {
+                pw.println(obj.toString());
+            }
+
+        } catch (IOException e) {
+            throw new GameModelException(
+                    Messages.ERROR_SAVING.formatted(fileName), e
+            );
+        }
+    }
+
 
 }

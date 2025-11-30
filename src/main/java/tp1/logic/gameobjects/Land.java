@@ -74,5 +74,16 @@ public class Land extends GameObject {
         return new Land(game, pos);
     }
 
+    @Override
+    public String toString() {
+        Position p = this.position;
+        return "(" + p.getRow() + "," + p.getCol() + ") Land";
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        return new Land(newGame, new Position(position.getRow(), position.getCol()));
+    }
+
 
 }

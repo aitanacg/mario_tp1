@@ -89,4 +89,8 @@ public class GameObjectContainer {
     }
 
     public void clear() { objects.clear(); }
+
+    public List<GameObject> getObjects() {
+        return objects;
+    }
 }

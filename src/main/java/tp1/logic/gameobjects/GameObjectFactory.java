@@ -2,8 +2,11 @@ package tp1.logic.gameobjects;
 
 import java.util.Arrays;
 import java.util.List;
+import tp1.exceptions.ObjectParseException;
+import tp1.exceptions.OffBoardException;
 
 import tp1.logic.Game;
+import tp1.logic.Position;
 
 public class GameObjectFactory {
 
@@ -17,12 +20,19 @@ public class GameObjectFactory {
             new Box()
     );
 
-    public static GameObject parse(String[] words, Game game) {
-        for (GameObject objetito : availableObjects) {
-            GameObject g = objetito.parse(words, game);
-            if (g != null)
-                return g;
+    public static GameObject parse(String[] words, Game game) throws ObjectParseException, OffBoardException  {
+        for (GameObject Objetito : availableObjects) {
+            GameObject obj = Objetito.parse(words, game);
+
+            if (obj != null) {
+                Position p = obj.getPosition();
+                if (!p.isInBounds(Game.DIM_X, Game.DIM_Y)) {//valido pos
+                    throw new OffBoardException("Object position is off the board: \"" + String.join(" ", words) + "\"");
+                }
+                return obj;
+            }
         }
-        return null;
+        throw new ObjectParseException("Unknown game object: \"" + String.join(" ", words) + "\"");
     }
+
 }

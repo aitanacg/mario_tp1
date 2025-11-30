@@ -94,4 +94,20 @@ public class Box extends GameObject {
 
         return new Box(game, p, empty);
     }
+
+    @Override
+    public String toString() {
+        Position p = this.position;
+        String state = isEmpty ? "Empty" : "Full";
+        return "(" + p.getRow() + "," + p.getCol() + ") Box " + state;
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        return new Box(newGame,
+                new Position(position.getRow(), position.getCol()),
+                this.isEmpty);
+    }
+
+
 }

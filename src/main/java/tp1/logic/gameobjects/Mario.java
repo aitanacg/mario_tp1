@@ -7,7 +7,7 @@ import tp1.logic.Game;
 public class Mario extends MovingObject {
 
     //constructor vacio para facotria
-    protected Mario() {
+    public Mario() {
         super(null, null);
     }
 
@@ -244,8 +244,9 @@ public class Mario extends MovingObject {
     }
 
     //FACTORIA
-
-    public GameObject parse(String[] words, Game game) {
+    @Override
+    public Mario parse(String[] words, Game game){  //puedo devolver mario aunque el papa devuelva GameObject
+    //public GameObject parse(String[] words, Game game) {
         if (!GameObject.matchesType(words[1], "MARIO", "M"))  //es mario?
             return null;
 
@@ -274,6 +275,31 @@ public class Mario extends MovingObject {
 
         return m;
     }
+
+    @Override
+    public String toString() {
+        Position p = this.position;
+
+        String dirStr = (facing == Facing.LEFT ? "LEFT" : "RIGHT");
+        String sizeStr = big ? "BIG" : "SMALL";
+
+        return "(" + p.getRow() + "," + p.getCol() + ") Mario " + dirStr + " " + sizeStr;
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        Mario m = new Mario(newGame, new Position(position.getRow(), position.getCol()));
+
+        m.setBig(this.isBig());
+        m.setFacing(this.getFacing());
+        m.setFalling(this.isFalling());
+        m.setDir(this.getDir());
+
+        return m;
+    }
+
+
+
 
 
 }

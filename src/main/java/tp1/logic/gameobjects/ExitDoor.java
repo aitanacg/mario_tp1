@@ -73,4 +73,16 @@ public class ExitDoor extends GameObject {
         return new ExitDoor(game, pos);
     }
 
+    @Override
+    public String toString() {
+        Position p = this.position;
+        return "(" + p.getRow() + "," + p.getCol() + ") ExitDoor";
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        return new ExitDoor(newGame, new Position(position.getRow(), position.getCol()));
+    }
+
+
 }

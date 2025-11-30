@@ -114,4 +114,11 @@ public class Messages {
     public static final String OBJECT_OFF_BOARD = "Object position is off board: %s";
     public static final String UNKNOWN_GAME_OBJECT = "Unknown game object: \"%s\"";
 
+    public static final String INVALID_FILE_CONFIGURATION = "Invalid file \"%s\" configuration";
+    public static final String INCORRECT_GAME_STATUS = "Incorrect game status \"%s\"";
+    public static final String FILE_NOT_FOUND = "File not found: \"%s\"";
+    public static final String FILE_READING_ERROR = "File reading error: \"%s\"";
+    public static final String ERROR_SAVING = "Unable to save game configuration to file \"%s\"";
+
+
 }

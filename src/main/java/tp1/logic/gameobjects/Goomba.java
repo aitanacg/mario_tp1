@@ -132,5 +132,20 @@ public class Goomba extends MovingObject {
         return g;
     }
 
+    @Override
+    public String toString() {
+        Position p = this.position;
+        String dirStr = (dir == Action.LEFT ? "LEFT" : "RIGHT");
+        return "(" + p.getRow() + "," + p.getCol() + ") Goomba " + dirStr;
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        Goomba g = new Goomba(newGame, new Position(position.getRow(), position.getCol()));
+        g.setDir(this.dir);
+        return g;
+    }
+
+
 
 }

@@ -61,7 +61,6 @@ public abstract class GameObject implements GameItem { //promete implementar tod
     //usamos el double dispatch, para seber quien hace que al chocar dos objetos
 
 
-
     //FACTORIA................. si
 
     public GameObject parse(String[] words, Game game) {
@@ -85,5 +84,7 @@ public abstract class GameObject implements GameItem { //promete implementar tod
             return null;
         }
     }
+
+    public abstract GameObject copy(Game newGame); //los objetos deben auntar al game actual, no al viejo (para lo de ficheritos)
 
 }

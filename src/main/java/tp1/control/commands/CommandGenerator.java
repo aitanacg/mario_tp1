@@ -14,7 +14,9 @@ public class CommandGenerator {
             new ResetCommand(),
             new HelpCommand(),
             new ExitCommand(),
-            new AddObjectCommand()
+            new AddObjectCommand(),
+            new LoadCommand(),
+            new SaveCommand()
     );
 
     public static Command parse(String[] words) throws CommandParseException {

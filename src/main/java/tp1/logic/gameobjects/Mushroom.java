@@ -95,4 +95,17 @@ public class Mushroom extends MovingObject {
 
         return new Mushroom(game, pos);
     }
+
+    @Override
+    public String toString() {
+        Position p = this.position;
+        return "(" + p.getRow() + "," + p.getCol() + ") Mushroom";
+    }
+
+    @Override
+    public GameObject copy(Game newGame) {
+        Mushroom m = new Mushroom(newGame, new Position(position.getRow(), position.getCol()));
+        m.setDir(this.dir);
+        return m;
+    }
 }

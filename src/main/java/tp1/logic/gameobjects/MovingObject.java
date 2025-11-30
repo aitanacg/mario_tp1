@@ -6,14 +6,10 @@ import tp1.logic.Position;
 
 public abstract class MovingObject extends GameObject {
 
-    //protected int dirX = 0;
     protected Action dir = Action.STOP;
 
     protected boolean falling = false;
 
-    //public void setDirX(int dx) {
-    //    this.dirX = dx;
-    //}
 
     public void setDir(Action a) {
         this.dir = a;
@@ -36,7 +32,6 @@ public abstract class MovingObject extends GameObject {
     }
 
     protected Position nextPosition() {
-        //return position.translate(dirX, 0);
         return position.next(dir);
 
     }
