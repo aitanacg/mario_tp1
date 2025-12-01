@@ -1,7 +1,7 @@
 package tp1.view;
 
 public interface ViewInterface {
-	// show methods
+	//view methods
 	public void showWelcome();
 	public void showGame();
 	public void showEndMessage();

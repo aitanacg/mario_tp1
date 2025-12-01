@@ -1,8 +1,4 @@
-
-	/**
-	 * creo que los tests no van demasiado bien otra vez, pero he decidido solo probar si funcionaba
-	 * por mi cuenta, y creo que va bastante bien
-	 */
+//Aitana Cavo Gassen
 
 package tp1;
 
