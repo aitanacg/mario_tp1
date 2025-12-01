@@ -74,15 +74,13 @@ public class ExitDoor extends GameObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //para el save
         Position p = this.position;
         return "(" + p.getRow() + "," + p.getCol() + ") ExitDoor";
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) { //para load/save, evito refs compartidas (FGC)
         return new ExitDoor(newGame, new Position(position.getRow(), position.getCol()));
     }
-
-
 }

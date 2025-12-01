@@ -33,7 +33,7 @@ public class Box extends GameObject {
         return isEmpty ? Messages.BOX_EMPTY : Messages.BOX_FULL;
     }
 
-    //INTERACTIONS
+    //INTERACTIONS-_-_-_-_-_-_-_-_-_-_- :)
 
     @Override
     public boolean interactWith(GameItem other) {
@@ -46,13 +46,11 @@ public class Box extends GameObject {
         Position mp = m.getPosition();
         Position bp = this.position;
 
-        //boolean marioDebajo = mp.getRow() == bp.getRow() + 1 && mp.getCol() == bp.getCol();  //solo si es POR ABAJO
-        boolean marioDebajo = mp.equals(bp.down());
+        boolean marioDebajo = mp.equals(bp.down());//solo si es POR ABAJO
 
         if (!isEmpty && marioDebajo) {
 
             this.isEmpty = true; //caja vacia
-
             game.addPoints(50); //me da points yay
 
             Position arriba = bp.up(); //spawneo un mushroom encima
@@ -61,7 +59,6 @@ public class Box extends GameObject {
                 game.getGameObjectContainer().add(mush);
             }
         }
-
         return true;
     }
 
@@ -96,18 +93,16 @@ public class Box extends GameObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //pal save
         Position p = this.position;
         String state = isEmpty ? "Empty" : "Full";
         return "(" + p.getRow() + "," + p.getCol() + ") Box " + state;
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) { //para load/save, evito refs compartidas (FGC)
         return new Box(newGame,
                 new Position(position.getRow(), position.getCol()),
                 this.isEmpty);
     }
-
-
 }

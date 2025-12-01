@@ -29,19 +29,16 @@ public class LoadCommand extends AbstractCommand {
     @Override
     public Command parse(String[] words) throws CommandParseException { //nomes accepta dues paraules, o llenca exc
 
-        if (!matchCommand(words[0]))
-            return null;
-
-        if (words.length != 2)
-            throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+        if (!matchCommand(words[0])) return null;
+        if (words.length != 2) throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 
         return new LoadCommand(words[1]);
     }
 
     @Override
     public void execute(GameModel gameModel, GameView view) throws CommandExecuteException {
-        Game game = (Game) gameModel;
 
+        Game game = (Game) gameModel;
         try {
             game.load(fileName); //llama a load y si falla algo command execute exception
             view.showGame();

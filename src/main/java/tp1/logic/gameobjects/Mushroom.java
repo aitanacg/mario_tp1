@@ -87,8 +87,7 @@ public class Mushroom extends MovingObject {
     @Override
     public GameObject parse(String[] words, Game game) {
 
-        if (!GameObject.matchesType(words[1], "MUSHROOM", "MUSH"))
-            return null;
+        if (!GameObject.matchesType(words[1], "MUSHROOM", "MUSH")) return null;
 
         Position pos = GameObject.parsePosition(words[0]);
         if (pos == null) return null;
@@ -97,13 +96,13 @@ public class Mushroom extends MovingObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //para el save como todos los otros
         Position p = this.position;
         return "(" + p.getRow() + "," + p.getCol() + ") Mushroom";
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) { //como los otros, para el FGC, para load y save
         Mushroom m = new Mushroom(newGame, new Position(position.getRow(), position.getCol()));
         m.setDir(this.dir);
         return m;

@@ -7,9 +7,7 @@ import tp1.logic.Position;
 public abstract class MovingObject extends GameObject {
 
     protected Action dir = Action.STOP;
-
     protected boolean falling = false;
-
 
     public void setDir(Action a) {
         this.dir = a;
@@ -33,12 +31,9 @@ public abstract class MovingObject extends GameObject {
 
     protected Position nextPosition() {
         return position.next(dir);
-
     }
 
-    protected boolean canMoveTo(Position p) {
-        //si pos es valida pa moverme
-        return p.isInBounds(Game.DIM_X, Game.DIM_Y)
-                && !game.getGameObjectContainer().isSolidAt(p);
+    protected boolean canMoveTo(Position p) { //si pos es valida pa moverme
+        return p.isInBounds(Game.DIM_X, Game.DIM_Y) && !game.getGameObjectContainer().isSolidAt(p);
     }
 }

@@ -1,5 +1,5 @@
 package tp1.control.commands;
-
+//comando fantasma, lo comun
 public abstract class AbstractCommand implements Command {
 
     private final String name;

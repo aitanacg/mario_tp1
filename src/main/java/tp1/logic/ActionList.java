@@ -30,8 +30,7 @@ public class ActionList {
         }
     }
 
-    //quita y devuelve la primera accion del list
-    public Action extract() {
+    public Action extract() {//quita y devuelve la primera accion del list
         if (actions.isEmpty()) return null;
         return actions.remove(0);
     }
@@ -44,14 +43,17 @@ public class ActionList {
     public int size() {
         return actions.size();
     }
+
     //devuelve una copia
     public List<Action> asList() {
         return new ArrayList<>(actions);
     }
+
     //si cumple el limite, pos si acaso
     public boolean isValid() {
         return actions.size() <= MAX_ACTIONS;
     }
+
     @Override
     public String toString() {
         return actions.toString();

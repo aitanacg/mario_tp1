@@ -30,7 +30,7 @@ public abstract class GameObject implements GameItem { //promete implementar tod
     }
     public void revive() {
         alive = true;
-    }
+    } //quien sabe jsjs
 
     @Override
     public boolean isSolid() {
@@ -57,9 +57,7 @@ public abstract class GameObject implements GameItem { //promete implementar tod
         return false;
     }
     public boolean receiveInteraction(Box b) { return false; }
-
     //usamos el double dispatch, para seber quien hace que al chocar dos objetos
-
 
     //FACTORIA................. si
 
@@ -85,6 +83,5 @@ public abstract class GameObject implements GameItem { //promete implementar tod
         }
     }
 
-    public abstract GameObject copy(Game newGame); //los objetos deben auntar al game actual, no al viejo (para lo de ficheritos)
-
+    public abstract GameObject copy(Game newGame); //los objetos deben auntar al game actual, no al viejo (para lo de ficheritos, save, load)
 }

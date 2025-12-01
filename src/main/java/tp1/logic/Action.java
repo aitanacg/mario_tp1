@@ -5,7 +5,6 @@ import tp1.view.Messages;
 
 /**
  * Represents the allowed actions in the game
- *
  */
 public enum Action {
 	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), STOP(0,0);
@@ -29,22 +28,17 @@ public enum Action {
         if (s == null) {
             throw new ActionParseException("Action is null");
         }
-
         String t = s.trim().toUpperCase();
         switch (t) {
-            case "L": case "LEFT":  return LEFT;
+            case "L": case "LEFT": return LEFT;
             case "R": case "RIGHT": return RIGHT;
-            case "U": case "UP":    return UP;
-            case "D": case "DOWN":  return DOWN;
+            case "U": case "UP": return UP;
+            case "D": case "DOWN": return DOWN;
             case "S": case "STOP":
-            case "NONE":            return STOP;
+            case "NONE": return STOP;
             default:
-                // mensaje bonito usando Messages
-                throw new ActionParseException(
-                        Messages.UNKNOWN_ACTION.formatted(s)
+                throw new ActionParseException(Messages.UNKNOWN_ACTION.formatted(s)// mensaje bonito usando Messages
                 );
         }
     }
-	
-	
 }

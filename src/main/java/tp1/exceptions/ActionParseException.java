@@ -1,4 +1,5 @@
 package tp1.exceptions;
+//cosita general de exceptions pq no c donde meterlo
 //mis cosas como reset, action... me devolvian null o false, ahora mando msgs de errores claros para el jugador
 
 public class ActionParseException extends GameParseException {

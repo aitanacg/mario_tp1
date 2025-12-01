@@ -34,15 +34,29 @@ public class GameObjectContainer {
         return Messages.EMPTY;
     }
 
-    //el ciclo de juego real
+
+    /*
+    El ciclo de juego real
+    Cada obj se actualiza, unos hacen cosas y otros no
+    objects =[Mario, Goomba, Mushroom, Land, ExitDoor, Box], bucle para each
+    Hace la doble interacción si estan dos en la misma casilla, DOUBLE DISPATCH
+     */
     public void updateAll() {
-        for (GameObject obj : objects) obj.update();  //cada obj se actualiza, unos hacen cosas y otros no
-        //objects =[Mario, Goomba, Mushroom, Land, ExitDoor, Box], bucle for each
+        for (GameObject obj : objects) obj.update();
         doInteractions(); //interacciones (b recibe a a en el dd)
-        //hace la doble interacción si estan dos en la misma casilla, DOUBLE DISPATCH
         clean(); //recojo cadaveres
     }
 
+    /*
+    Dejo toda esta logica de gestion de interacciones porque me parece correcto y
+    mejor que moverlo y duplicarlo en cada obj
+    Iteramos todas las parejas sin duplicados, lo que me parece eficiente
+
+    El dd permita a cada obj interactuar con otro sin preguntar su clase con instanceof
+    El interactWith solo decide con quien interactua, el recieve interacion hace cosas
+    Ex: goomba recibe a mario falling: goomba muere
+    Ex: Mario recibe a goomba y no cae: mario muere
+     */
     public void doInteractions() {
         final int n = objects.size(); //primero miro cuantos hay
         for (int i = 0; i < n; i++) {
@@ -57,10 +71,6 @@ public class GameObjectContainer {
                 if (overlap) {
                     a.interactWith(b); //precioso double dispatch, asi cada uno decide su reacción
                     b.interactWith(a);
-                    //el dd permita a cada obj interactuar con otro sin preguntar su clase con instanceof
-                    //el interactWith solo decide con quien interactua, el recieve interacion hace cosas
-                    //Ex: goomba recibe a mario falling: goomba muere
-                    //Ex: Mario recibe a goomba y no cae: mario muere
                 }
             }
         }
@@ -70,13 +80,6 @@ public class GameObjectContainer {
     private boolean areStacked(GameObject a, GameObject b) {
         Position pa = a.getPosition();
         Position pb = b.getPosition();
-
-        //return (pa.getCol() == pb.getCol() &&
-        //        (pa.getRow() + 1 == pb.getRow() || pb.getRow() + 1 == pa.getRow()));
-
-
-        //a justo arriba de b o al reves
-
         return pa.up().equals(pb) || pb.up().equals(pa);
     }
 

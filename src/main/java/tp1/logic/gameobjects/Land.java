@@ -75,13 +75,13 @@ public class Land extends GameObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //savee
         Position p = this.position;
         return "(" + p.getRow() + "," + p.getCol() + ") Land";
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) {//para load/save, evito refs compartidas (FGC)
         return new Land(newGame, new Position(position.getRow(), position.getCol()));
     }
 

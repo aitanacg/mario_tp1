@@ -43,23 +43,17 @@ public class ResetCommand extends AbstractCommand{
             }
             catch (NumberFormatException e) {
                 throw new CommandParseException(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(words[1]), e);
-                //return null; //si  no es un numero no lo quiero
             }
         }
-
-        //return null; //si hay algo mas pos tampoco
-        throw new CommandParseException("Incorrect number of arguments for reset command");
+        throw new CommandParseException("Incorrect number of arguments for reset command");//si hay algo mas pos tampoco
     }
 
     @Override
     public void execute(GameModel gameModel, GameView view) throws CommandExecuteException{
         try {
             Game game = (Game) gameModel;
-
-            if (levelToReset == null)
-                game.reset();
-            else
-                game.reset(levelToReset);
+            if (levelToReset == null) game.reset();
+            else game.reset(levelToReset);
 
             view.showMessage("Game reset!");
             view.showGame();

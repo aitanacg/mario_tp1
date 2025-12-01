@@ -2,7 +2,6 @@ package tp1.control.commands;
 
 import tp1.exceptions.CommandParseException;
 import tp1.view.Messages;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class CommandGenerator {
     }
 
     public static String commandHelp() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(); //mejor que string
         for (Command c : AVAILABLE_COMMANDS) {
             sb.append(c.helpText()).append("\n");
         }

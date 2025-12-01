@@ -1,7 +1,6 @@
 package tp1.logic;
 
 import tp1.exceptions.PositionParseException;
-
 import java.util.Objects;
 
 public final class Position {
@@ -22,6 +21,7 @@ public final class Position {
         //dy filas dx columnas
 	}
 
+    //no mas translates sucios por el codigo
     public Position up()    { return translate(0, -1); }
     public Position down()  { return translate(0, +1); }
     public Position left()  { return translate(-1, 0); }
@@ -50,36 +50,31 @@ public final class Position {
 		return row == p.row && col == p.col;
 
 	}
+
 	@Override 
 	public int hashCode() { return Objects.hash(row, col); }
     @Override 
 	public String toString() { return "(" + row + "," + col + ")"; }
 
-    public static Position parse(String s) throws PositionParseException {
-        if (s == null)
-            throw new PositionParseException("Null position");
+    public static Position parse(String s) throws PositionParseException { //leo pos desde ficheros (pal load)
 
+        if (s == null) throw new PositionParseException("Null position");
         try {
-            // Espera formato "(row,col)"
-            String t = s.trim();
+            String text = s.trim();//espera format "(fila,col)", quito espacios de " (
 
-            if (!t.startsWith("(") || !t.endsWith(")"))
-                throw new PositionParseException("Invalid position format: " + s);
+            if (!text.startsWith("(") || !text.endsWith(")"))  //valido ()
+                text = text.substring(1, text.length() - 1); //quito ((()()()()()( y me queda "a,e"
+            String[] parts = text.split(",");
 
-            t = t.substring(1, t.length() - 1); // quitar paréntesis
-            String[] parts = t.split(",");
+            if (parts.length != 2) throw new PositionParseException("Invalid position format: " + s);
 
-            if (parts.length != 2)
-                throw new PositionParseException("Invalid position format: " + s);
-
-            int row = Integer.parseInt(parts[0].trim());
+            int row = Integer.parseInt(parts[0].trim()); //conv a num
             int col = Integer.parseInt(parts[1].trim());
 
-            return new Position(row, col);
+            return new Position(row, col);//ya me lo acepta
         }
         catch (NumberFormatException e) {
             throw new PositionParseException("Invalid number in position: " + s, e);
         }
     }
-
 }

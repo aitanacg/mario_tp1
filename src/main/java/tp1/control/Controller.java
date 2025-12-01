@@ -44,7 +44,6 @@ public class Controller {
                 }
             }
         }
-
         view.showEndMessage();
     }
 }

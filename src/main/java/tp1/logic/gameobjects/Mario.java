@@ -20,7 +20,6 @@ public class Mario extends MovingObject {
     private boolean jumping = false;
     private boolean justDidDown = false; //para que no se me buguee y no se me vaya volando
 
-
     public Mario(Game game, Position pos) {
         super(game, pos);
     }
@@ -40,7 +39,7 @@ public class Mario extends MovingObject {
     public void setBig(boolean b) {
         this.big = b;
     }
-    public boolean isJumping() { return jumping;}
+    public boolean isJumping() { return jumping;} //los dejo por si las moscas
     public void setJumping(boolean j) { this.jumping = j;}
 
     @Override
@@ -277,7 +276,7 @@ public class Mario extends MovingObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //para el save, el mas tocho
         Position p = this.position;
 
         String dirStr = (facing == Facing.LEFT ? "LEFT" : "RIGHT");
@@ -287,7 +286,7 @@ public class Mario extends MovingObject {
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) {//para load/save, evito refs compartidas (FGC), importante el mario
         Mario m = new Mario(newGame, new Position(position.getRow(), position.getCol()));
 
         m.setBig(this.isBig());
@@ -297,10 +296,4 @@ public class Mario extends MovingObject {
 
         return m;
     }
-
-
-
-
-
 }
-

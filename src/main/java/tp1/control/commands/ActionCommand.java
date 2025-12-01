@@ -1,6 +1,5 @@
 package tp1.control.commands;
 
-import tp1.exceptions.ActionParseException;
 import tp1.exceptions.CommandParseException;
 import tp1.exceptions.CommandExecuteException;
 import tp1.logic.GameModel;
@@ -53,9 +52,7 @@ public class ActionCommand extends AbstractCommand {
             view.showGame();//dibujo
         }
         catch (Exception e) { //actionparseexc
-            throw new CommandExecuteException(
-                    Messages.ERROR_COMMAND_EXECUTE,
-                    e
+            throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e
             );
         }
     }

@@ -20,7 +20,7 @@ public class FileGameConfiguration implements GameConfiguration {
 
     //guardo estado original de estos, como en el fichero, uso copias
     private Mario mario;
-    private List<GameObject> npcObjects = new ArrayList<>();
+    private List<GameObject> npcObjects = new ArrayList<>(); //ahora seran npcs pq me lio
 
     public FileGameConfiguration(String fileName, GameWorld game) throws GameLoadException {
         this.game = game;
@@ -64,15 +64,14 @@ public class FileGameConfiguration implements GameConfiguration {
                             Messages.INVALID_FILE_CONFIGURATION.formatted(fileName), e
                     );
                 }
-
                 npcObjects.add(obj);
             }
 
             if (mario == null) //valido si mario esta de chill
                 throw new GameLoadException(Messages.INVALID_FILE_CONFIGURATION.formatted(fileName));
         }
-        catch (FileNotFoundException fnfe) {
-            throw new GameLoadException(Messages.FILE_NOT_FOUND.formatted(fileName), fnfe);
+        catch (FileNotFoundException fileNF) {
+            throw new GameLoadException(Messages.FILE_NOT_FOUND.formatted(fileName), fileNF);
         }
         catch (IOException ioe) {
             throw new GameLoadException(Messages.FILE_READING_ERROR.formatted(fileName), ioe);

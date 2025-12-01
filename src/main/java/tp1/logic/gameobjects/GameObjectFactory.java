@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
-
 import tp1.logic.Game;
 import tp1.logic.Position;
 
@@ -34,5 +33,4 @@ public class GameObjectFactory {
         }
         throw new ObjectParseException("Unknown game object: \"" + String.join(" ", words) + "\"");
     }
-
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import tp1.exceptions.*;
 import tp1.logic.gameobjects.*;
-import tp1.logic.GameModel;
 import tp1.view.Messages;
 
 public class Game implements GameModel{
@@ -33,7 +32,6 @@ public class Game implements GameModel{
 	private final ActionList actions = new ActionList();
 
     private GameConfiguration fileLoader = null;
-
 
     public GameObjectContainer getGameObjectContainer() {
 		return gameObjects;
@@ -170,7 +168,7 @@ public class Game implements GameModel{
             updateTurn();//objetos y todo lo que importa, llama a updateAll() de GamObjCon, pq es verde esto
         }
         catch (GameModelException e) {
-            throw new RuntimeException("Unexpected game model error", e); //error del modelo
+            throw new RuntimeException("Unexpected game model error", e); //error del modelo (logica)
         }
 
         if (!finished && remainingTime > 0) {
@@ -355,23 +353,19 @@ public class Game implements GameModel{
         this.playerLost = false;
     }
 
-    public void save(String fileName) throws GameModelException {
+    public void save(String fileName) throws GameModelException { //mi save bonito
         try (PrintWriter pw = new PrintWriter(new FileWriter(fileName))) {
 
-            // 1) Escribir estado del juego
-            pw.println(remainingTime + " " + points + " " + numLives);
+            pw.println(remainingTime + " " + points + " " + numLives); //escribo el status del game
 
-            // 2) Escribir objetos
-            for (GameObject obj : gameObjects.getObjects()) {
+            for (GameObject obj : gameObjects.getObjects()) { //para cada obj lo escribo
                 pw.println(obj.toString());
             }
 
-        } catch (IOException e) {
+        } catch (IOException e) { //si mal
             throw new GameModelException(
                     Messages.ERROR_SAVING.formatted(fileName), e
             );
         }
     }
-
-
 }

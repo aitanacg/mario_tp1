@@ -1,6 +1,5 @@
 package tp1.control.commands;
 
-import tp1.exceptions.CommandException;
 import tp1.exceptions.CommandExecuteException;
 import tp1.exceptions.CommandParseException;
 import tp1.logic.GameModel;
@@ -14,5 +13,3 @@ public interface Command {
 
     String helpText();
 }
-
-//public interface Command { Command parse(String[] commandWords); void execute(GameModel game, GameView view); String helpText(); }

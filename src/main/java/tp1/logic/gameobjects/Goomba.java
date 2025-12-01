@@ -35,25 +35,11 @@ public class Goomba extends MovingObject {
             return;
         }
 
-//        //mov horizontal con rebote boing
-//        int nextC = position.getCol() + (dirX == 0 ? -1 : dirX); //si no tiene dirX va para la izq por def
-//        int r = position.getRow();
-//
-//        boolean hitsWall = (nextC < 0 || nextC >= Game.DIM_X);
-//        boolean solidAhead = !hitsWall && game.getGameObjectContainer().isSolidAt(new Position(r, nextC));
-//
-//        if (hitsWall || solidAhead) {
-//            dirX = (dirX == 0 ? +1 : -dirX);
-//            return;
-//        }
-//
-//        position = new Position(r, nextC);
-        // ===== MOVIMIENTO HORIZONTAL =====
+        //mov horizontal con rebotito
         Position nextPos = position.next(dir);
 
         boolean hitsWall = !nextPos.isInBounds(Game.DIM_X, Game.DIM_Y);
         boolean solidAhead = game.getGameObjectContainer().isSolidAt(nextPos);
-
         // rebote
         if (hitsWall || solidAhead) {
             flipDirection();
@@ -68,7 +54,7 @@ public class Goomba extends MovingObject {
         else dir = Action.LEFT;
     }
 
-    //DOUBLE DISPATCH
+    //DOUBLE DISPATCH <3
 
     @Override
     public boolean interactWith(GameItem other) {
@@ -81,7 +67,6 @@ public class Goomba extends MovingObject {
         Position mp = m.getPosition();
         Position gp = this.position;
 
-        //boolean pisa = m.isFalling() && mp.equals(gp);
         Position marioAbajo = mp.down();
         boolean pisa = m.isFalling() && marioAbajo.equals(gp);
         if (pisa) {
@@ -133,19 +118,16 @@ public class Goomba extends MovingObject {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //para savee
         Position p = this.position;
         String dirStr = (dir == Action.LEFT ? "LEFT" : "RIGHT");
         return "(" + p.getRow() + "," + p.getCol() + ") Goomba " + dirStr;
     }
 
     @Override
-    public GameObject copy(Game newGame) {
+    public GameObject copy(Game newGame) { //para load/save, evito refs compartidas (FGC) ye
         Goomba g = new Goomba(newGame, new Position(position.getRow(), position.getCol()));
         g.setDir(this.dir);
         return g;
     }
-
-
-
 }
