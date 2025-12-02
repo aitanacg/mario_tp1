@@ -29,10 +29,10 @@ public class CommandGenerator {
         throw new CommandParseException(Messages.UNKNOWN_COMMAND.formatted(words[0])); //nadie sabie quien es :(
     }
 
-    public static String commandHelp() {
-        StringBuilder sb = new StringBuilder(); //mejor que string
+    public static String commandHelp() { //genera mi texto con los comandos
+        StringBuilder sb = new StringBuilder(); //mejor que string, en vez de "a" + "a", no creo string nuevos cada vez
         for (Command c : AVAILABLE_COMMANDS) {
-            sb.append(c.helpText()).append("\n");
+            sb.append(c.helpText()).append("\n"); //append() es metodo de sb par anadir texto al final de mi string
         }
         return sb.toString();
     }

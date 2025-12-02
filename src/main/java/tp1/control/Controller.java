@@ -30,14 +30,14 @@ public class Controller {
         while (!game.isFinished()) {
             try {
                 String[] words = view.getPrompt();
-                Command command = CommandGenerator.parse(words);
-                command.execute(game, view);
+                Command command = CommandGenerator.parse(words); //me identifica el comando
+                command.execute(game, view); //me ejecuta el comando
                 view.showGame();//si no hay eXCepciones
             }
             catch (CommandException e) { //one & onlyy excepcion
-                view.showError(e.getMessage());
+                view.showError(e.getMessage());//"error executing load command" o lo que sea
 
-                Throwable causa = e.getCause();//me hago detective y busco causa
+                Throwable causa = e.getCause();//me hago detective y busco causa, por ej, si la file config es popo
                 while (causa != null) {
                     view.showError(causa.getMessage());
                     causa = causa.getCause();

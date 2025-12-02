@@ -15,11 +15,11 @@ public abstract class AbstractCommand implements Command {
     }
 
     protected boolean matchCommand(String name) {
-        return this.name.equalsIgnoreCase(name) || this.shortcut.equalsIgnoreCase(name);
+        return this.name.equalsIgnoreCase(name) || this.shortcut.equalsIgnoreCase(name); //si es el comando (ignoro oOooOOo)
     }
 
     @Override
     public String helpText() {
         return details + " : " + help;
-    }
+    } //linea para cuando hago help
 }

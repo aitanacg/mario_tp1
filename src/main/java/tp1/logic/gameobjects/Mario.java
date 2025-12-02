@@ -244,8 +244,7 @@ public class Mario extends MovingObject {
 
     //FACTORIA
     @Override
-    public Mario parse(String[] words, Game game){  //puedo devolver mario aunque el papa devuelva GameObject
-    //public GameObject parse(String[] words, Game game) {
+    public Mario parse(String[] words, Game game){  //puedo devolver mario aunque el papa devuelva GameObject para el fgc
         if (!GameObject.matchesType(words[1], "MARIO", "M"))  //es mario?
             return null;
 

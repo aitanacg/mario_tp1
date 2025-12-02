@@ -93,7 +93,7 @@ public class Box extends GameObject {
     }
 
     @Override
-    public String toString() { //pal save
+    public String toString() { //pal save, que no me salga tp1.logic.gameobjects.Goomba@123patatas jajs
         Position p = this.position;
         String state = isEmpty ? "Empty" : "Full";
         return "(" + p.getRow() + "," + p.getCol() + ") Box " + state;

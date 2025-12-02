@@ -6,7 +6,7 @@ import tp1.logic.Game;
 import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
-
+//permite guardar el estado actual del juego en un archivo: tiempo rest, pts, vidas, mario pos y estado, objetos...
 public class SaveCommand extends AbstractCommand {
 
     private static final String NAME = "save";
@@ -18,10 +18,10 @@ public class SaveCommand extends AbstractCommand {
 
     public SaveCommand() {
         super(NAME, SHORTCUT, DETAILS, HELP);
-    } //cuando creo lista comms disp
+    } //llama al constructor de AbstactCommand
 
     private SaveCommand(String fileName) {
-        this();
+        this();//llama al SaveCommand de arriba
         this.fileName = fileName;
     }
 

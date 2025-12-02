@@ -49,7 +49,7 @@ public class FileGameConfiguration implements GameConfiguration {
                 if (line.isBlank()) continue;//ignoro
                 String[] words = line.trim().split("\\s+"); //trim me quita basura y spliteo los espacios
 
-                Mario esMario = new Mario().parse(words, (Game) game); //intento parsear a mario, covarianzaa, intento de lo del foro
+                Mario esMario = new Mario().parse(words, (Game) game); //intento parsear a mario, covarianzaa, intento de lo del foro, asi no tengo que castear
                 if (esMario != null) {
                     mario = esMario;
                     continue; //no sigo con factoria
