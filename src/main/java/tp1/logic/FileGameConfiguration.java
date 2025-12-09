@@ -99,6 +99,7 @@ public class FileGameConfiguration implements GameConfiguration {
     @Override
     public Mario getMario() {
         return (Mario) mario.copy((Game) game); //con copy devuelvo marios nuevos en cada reset, same con npcs
+        //return m
     }
 
     @Override

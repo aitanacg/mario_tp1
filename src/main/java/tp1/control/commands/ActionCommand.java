@@ -49,11 +49,9 @@ public class ActionCommand extends AbstractCommand {
             }
 
             game.updateTurn();//avanzo turno
-            view.showGame();//dibujo
         }
         catch (Exception e) { //actionparseexc
-            throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e
-            );
+            throw new CommandExecuteException(Messages.ERROR_COMMAND_EXECUTE, e);
         }
     }
 }

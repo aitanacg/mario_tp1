@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="P3">
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AbstractCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AbstractCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/CommandGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/CommandGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/SaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/SaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ActionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ActionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/exceptions/CommandExecuteException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/exceptions/CommandExecuteException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/exceptions/CommandParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/exceptions/CommandParseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/exceptions/GameLoadException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/exceptions/GameLoadException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/exceptions/GameModelException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/exceptions/GameModelException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/FileGameConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/FileGameConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,23 +42,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/aitan/IdeaProjects/mario_tp1/pom.xml",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/aitan/IdeaProjects/mario_tp1/pom.xml&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

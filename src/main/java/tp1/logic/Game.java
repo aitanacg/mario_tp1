@@ -248,7 +248,7 @@ public class Game implements GameModel{
                 this.mario = fileLoader.getMario(); //mario coquette, es un Mario nuevo, no un generico
                 this.gameObjects.add(mario);
 
-                for (GameObject obj : fileLoader.getNPCObjects()) { //cada uno de los nps
+                for (GameObject obj : fileLoader.getNPCObjects()) { //cada uno de los nps, son copias y los paso a obj reales abajo
                     this.gameObjects.add(obj);
                 }
 

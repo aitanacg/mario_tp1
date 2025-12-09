@@ -29,7 +29,7 @@ public class LoadCommand extends AbstractCommand {
     @Override
     public Command parse(String[] words) throws CommandParseException { //nomes accepta dues paraules, o llenca exc
 
-        if (!matchCommand(words[0])) return null;
+        if (!matchCommand(words[0])) return null; //l o load
         if (words.length != 2) throw new CommandParseException(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
 
         return new LoadCommand(words[1]);
