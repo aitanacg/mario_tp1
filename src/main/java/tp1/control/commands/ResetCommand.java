@@ -56,7 +56,7 @@ public class ResetCommand extends AbstractCommand{
             else game.reset(levelToReset);
 
             view.showMessage("Game reset!");
-            view.showGame();
+            //view.showGame();
         }
         catch (Exception e) {
             throw new CommandExecuteException("Failed to reset game", e);

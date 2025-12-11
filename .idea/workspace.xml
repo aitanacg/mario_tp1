@@ -4,28 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="P3">
+    <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="Listo para examen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/FileGameConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/FileGameConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameObjectContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameObjectContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/ExitDoor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/ExitDoor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Land.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Land.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/MovingObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/MovingObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mushroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mushroom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AddObjectCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AddObjectCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ResetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ResetCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/UpdateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/UpdateCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +94,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764553766768</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Listo para examen">
+      <option name="closed" value="true" />
+      <created>1765482206135</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1765482206135</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,6 +110,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="P3" />
-    <option name="LAST_COMMIT_MESSAGE" value="P3" />
+    <MESSAGE value="Listo para examen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Listo para examen" />
   </component>
 </project>

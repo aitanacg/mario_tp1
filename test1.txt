@@ -1,4 +1,4 @@
-99 0 3
+98 0 3
 (13,0) Land
 (14,0) Land
 (13,1) Land
@@ -99,9 +99,9 @@
 (6,26) Land
 (5,26) Land
 (12,29) ExitDoor
-(12,1) Mario RIGHT SMALL
-(1,19) Goomba LEFT
-(12,7) Goomba LEFT
-(12,10) Goomba LEFT
-(12,13) Goomba RIGHT
-(8,6) Box Empty
+(11,1) Mario RIGHT SMALL
+(2,19) Goomba LEFT
+(12,6) Goomba LEFT
+(12,10) Goomba RIGHT
+(12,14) Goomba RIGHT
+(6,4) Box Full

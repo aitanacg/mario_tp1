@@ -41,7 +41,7 @@ public class LoadCommand extends AbstractCommand {
         Game game = (Game) gameModel;
         try {
             game.load(fileName); //llama a load y si falla algo command execute exception
-            view.showGame();
+            //view.showGame();
         }
         catch (GameLoadException gle) {
             throw new CommandExecuteException(

@@ -20,7 +20,7 @@ public class UpdateCommand extends NoParamsCommand {
     public void execute(GameModel game, GameView view) throws CommandExecuteException{
         try {
             game.updateTurn();//avanza un ciclo
-            view.showGame();//dibujoo
+            //view.showGame();//dibujoo
         }
         catch (Exception e) {
             throw new CommandExecuteException("Failed to update the game", e);
