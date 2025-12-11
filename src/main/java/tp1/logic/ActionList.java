@@ -1,9 +1,11 @@
 package tp1.logic;
-//es la cola de acciones por turno: max 4
-//mario las consume en su update, por ej el STOP no consume ni t ni cuenta como mov
+
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Cola de acciones por turno: max.4
+ * mario consume en su update(), el STOP no cuenta
+ */
 public class ActionList {
     private static final int MAX_ACTIONS = 4;
     private List<Action> actions = new ArrayList<>();
@@ -11,15 +13,15 @@ public class ActionList {
     //anade accion si aun no alcanza al max
     //devuelve true si lo hizo bien
 
-    public boolean add(Action act){
+    public boolean add(Action act){//anade una accion, si<MAX, true si todo correcto
         if (act == null) return false;
         if (actions.size() >= MAX_ACTIONS) return false; // ya hay 4
 
         actions.add(act);
         return true;
     }
-    //anade lista de acciones
-    public void add(List<Action> acts) {
+
+    public void add(List<Action> acts) {//anade varias acciones
         if (acts == null) return;
         for (Action a : acts) {
             if (actions.size() < MAX_ACTIONS) {
@@ -34,6 +36,7 @@ public class ActionList {
         if (actions.isEmpty()) return null;
         return actions.remove(0);
     }
+
     public boolean isEmpty() {
         return actions.isEmpty();
     }
@@ -44,20 +47,16 @@ public class ActionList {
         return actions.size();
     }
 
-    //devuelve una copia
     public List<Action> asList() {
         return new ArrayList<>(actions);
-    }
+    }//devuelve una copia
 
-    //si cumple el limite, pos si acaso
     public boolean isValid() {
         return actions.size() <= MAX_ACTIONS;
-    }
+    }//si cumple el limite, pos si acaso
 
     @Override
     public String toString() {
         return actions.toString();
     }
 }
-
-

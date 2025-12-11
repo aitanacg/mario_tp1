@@ -26,16 +26,12 @@ public class Game implements GameModel{
 	private boolean playerWon = false;
 	private boolean playerLost = false;
 
+    //objetos del juego
 	private GameObjectContainer gameObjects = new GameObjectContainer();
 	private Mario mario;
 
-	private final ActionList actions = new ActionList();
-
+    //configuracion cargada desde fichero
     private GameConfiguration fileLoader = null;
-
-    public GameObjectContainer getGameObjectContainer() {
-		return gameObjects;
-	}
 	
 	public Game(int nLevel) {
 		this.nLevel = nLevel;
@@ -59,7 +55,7 @@ public class Game implements GameModel{
     	playerLost = false;
 	}
 
-    //NIVELES__________________________________________________________________________
+    ////====================================NIVELES==========================================
 	//en este nivel mario empieza pequenito y hay mas de un goomba 
 	private void initLevel1() {
 		this.nLevel = 1;
@@ -148,19 +144,25 @@ public class Game implements GameModel{
 
         //exit
         gameObjects.add(new ExitDoor(this, new Position(Game.DIM_Y - 3, Game.DIM_X - 1)));
-    }//FIN NIVELES__________________________________________________________________________
+    }
 
-	public String positionToString(int col, int row) {
-    	return gameObjects.stringAt(new Position(row, col));
-	}
-
+    ////====================================ESTADO DEL JUEGO==========================================
 	public boolean isFinished() { return finished; }
 	public boolean playerWins() { return playerWon; }
 	public boolean playerLoses() { return playerLost; }
 	public int remainingTime() { return remainingTime; }
 	public int points() { return points; }
 	public int numLives() { return numLives; }
+    public GameObjectContainer getGameObjectContainer() {
+        return gameObjects;
+    }
+    private final ActionList actions = new ActionList();
 
+    public String positionToString(int col, int row) {
+        return gameObjects.stringAt(new Position(row, col));
+    }
+
+    ////====================================LOGICA DE JUEGO==========================================
 	public void update() { //baja el tiempo uno si no ha acabado, y marca el final
         if (finished) return;
 
@@ -181,6 +183,81 @@ public class Game implements GameModel{
         actions.clear();//me soluciona lo de volar
 	}
 
+    public void updateTurn() throws GameModelException{//un turno hace el update
+        gameObjects.updateAll(); //goombas
+    }
+
+    public void loseLife() { //quita vida y si llega a 0 pierde
+        if (finished)
+            return;
+        if (numLives > 0)
+            numLives--;
+        if (numLives == 0) {
+            finished = true;
+            playerLost = true;
+        }
+    }
+
+    public void marioDies() {
+        loseLife();
+
+        if (!finished) {
+            if (nLevel == -1)
+                initLevelMinus1();
+            else if (nLevel == 0)
+                initLevel0();
+            else if (nLevel == 2)
+                initLevel2();
+            else
+                initLevel1();
+        }
+    }
+
+    public void addPoints(int pts) {
+        this.points += pts;
+    }
+
+    public void consumeTime(int t) {
+        remainingTime -= t;
+        if (remainingTime <= 0) {
+            marioDies();
+        }
+    }
+
+    public void setPlayerWon() {
+        this.finished = true;
+        this.playerWon = true;
+    }
+
+    @Override
+    public void addAction(Action a) throws ActionParseException {
+        if (a == null)
+            throw new ActionParseException("Null action");
+        actions.add(a);
+    }
+
+    public ActionList getActions() {
+        return actions;
+    }
+
+
+    public void addObject(String[] objWords) throws OffBoardException, ObjectParseException {
+
+        GameObject obj = GameObjectFactory.parse(objWords, this);
+
+        if (obj == null) {
+            throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
+        }
+
+        Position p = obj.getPosition();
+        if (!p.isInBounds(DIM_Y, DIM_X)) {  //valido pos
+            throw new OffBoardException(Messages.OBJECT_OFF_BOARD.formatted(String.join(" ", objWords)));
+        }
+
+        gameObjects.add(obj);
+    }
+
+    ////====================================RESET LOAD Y SAVE==========================================
 	public void reset(Integer Level){
 		int newLevel = (Level == null) ? this.nLevel : Level; //(cond)? true:false, si es null me quedo en el que ya esta
         if (newLevel != -1 && newLevel != 0 && newLevel != 1 && newLevel != 2)
@@ -201,63 +278,17 @@ public class Game implements GameModel{
     	this.points   = keepPoints;
     	this.numLives = keepLives;
 	}
-
-	public void loseLife() { //quita vida y si llega a 0 pierde
-		if (finished)
-			return;
-		if (numLives > 0)
-			numLives--;
-		if (numLives == 0) {
-			finished = true;
-			playerLost = true;
-		}
-	}
-
-	public void marioDies() {
-		loseLife();
-
-		if (!finished) {
-            if (nLevel == -1)
-                initLevelMinus1();
-            else if (nLevel == 0)
-                initLevel0();
-            else if (nLevel == 2)
-                initLevel2();
-            else
-                initLevel1();
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "TODO: Hola soy el game";
-	}
 	
 	public void reset() {
-        if (fileLoader != null) { //si cargo un fichero lo usamosss
+        if (fileLoader != null) {
             try {
-                this.remainingTime = fileLoader.getRemainingTime();  //estado del game
-                this.points = fileLoader.getPoints();
-                this.numLives = fileLoader.getLives();
-                this.finished = false;
-                this.playerWon = false;
-                this.playerLost = false;
-
-                this.gameObjects.clear(); //quito lo que haya
-
-                this.mario = fileLoader.getMario(); //mario coquette, es un Mario nuevo, no un generico
-                this.gameObjects.add(mario);
-
-                for (GameObject obj : fileLoader.getNPCObjects()) { //cada uno de los nps, son copias y los paso a obj reales abajo
-                    this.gameObjects.add(obj);
-                }
-
-            } catch (Exception e) {  //si falla algo me quedo donde antes
+                load(fileLoader.getFileName());
+            }
+            catch (GameLoadException e) {//si falla algo me quedo donde antes
                 fileLoader = null;
                 resetScoreAndState();
                 initLevel1();
             }
-
             return;
         }
         //reset viejo <3
@@ -284,53 +315,6 @@ public class Game implements GameModel{
 		reset();
 	}
 
-    @Override
-    public void addAction(Action a) throws ActionParseException {
-        if (a == null)
-            throw new ActionParseException("Null action");
-        actions.add(a);
-    }
-
-	public ActionList getActions() {
-		return actions;
-	}
-
-	public void setPlayerWon() {
-		this.finished = true;
-		this.playerWon = true;
-	}
-
-	public void addPoints(int pts) {
-		this.points += pts;
-	}
-
-    public void consumeTime(int t) {
-        remainingTime -= t;
-        if (remainingTime <= 0) {
-            marioDies();
-        }
-    }
-
-    public void updateTurn() throws GameModelException{//un turno hace el update
-            gameObjects.updateAll(); //goombas
-    }
-
-    public void addObject(String[] objWords) throws OffBoardException, ObjectParseException {
-
-        GameObject obj = GameObjectFactory.parse(objWords, this);
-
-        if (obj == null) {
-            throw new ObjectParseException(Messages.UNKNOWN_GAME_OBJECT.formatted(String.join(" ", objWords)));
-        }
-
-        Position p = obj.getPosition();
-        if (!p.isInBounds(DIM_X, DIM_Y)) {  //valido pos
-            throw new OffBoardException(Messages.OBJECT_OFF_BOARD.formatted(String.join(" ", objWords)));
-        }
-
-        gameObjects.add(obj);
-    }
-
     public void load(String fileName) throws GameLoadException { //creo un fgc, copio el estado y las copy() y con fileloader hago reset
 
         FileGameConfiguration fgc = new FileGameConfiguration(fileName, this); //creo config desde fichero
@@ -342,9 +326,9 @@ public class Game implements GameModel{
 
         this.gameObjects.clear();  //limpiooo
 
-        this.mario = fgc.getMario();  //viene mi mario amigo
+        this.mario = fgc.getMario();  //viene mi mario amigo, es un Mario nuevo, no un generico
         this.gameObjects.add(mario);
-        for (GameObject obj : fgc.getNPCObjects()) {  //npcs
+        for (GameObject obj : fgc.getNPCObjects()) {  //cada uno de los nps, son copias y los paso a obj reales abajo
             this.gameObjects.add(obj);
         }
 
@@ -367,5 +351,10 @@ public class Game implements GameModel{
                     Messages.ERROR_SAVING.formatted(fileName), e
             );
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TODO: Hola soy el game";
     }
 }

@@ -1,20 +1,25 @@
 package tp1.logic.gameobjects;
-//es la base de todos los ebjetos, no puedo crear GameObjects pero si sus hijos
-// mario, goomba, land, exitdoor, box, mushroom
-//contiene Position, Game, si esta vivo isALive...
-//Implementa la factoria con parsePosition y matchesType
-import tp1.logic.Game;
-import tp1.logic.Position;
 
-public abstract class GameObject implements GameItem { //promete implementar todo lo de GameItem
+import tp1.logic.GameWorld;
+import tp1.logic.Position;
+/**Clase abstracta para todos los objetos, implementa todo lo de GameItem
+ * Es el default de todos los metodos obligatorios
+ * Los objetos heredan estos metodos y los pueden implementar
+ */
+public abstract class GameObject implements GameItem {
 
     protected Position position;
-    protected Game game;
+    protected GameWorld game;
     protected boolean alive = true;
 
-    public GameObject(Game game, Position position) {
+    public GameObject(GameWorld game, Position position) {
         this.game = game;
         this.position = position;
+    }
+
+    protected GameObject() {
+        this.game = null;
+        this.position = new Position(0, 0); //posicion tontita
     }
 
     public Position getPosition() {
@@ -45,10 +50,10 @@ public abstract class GameObject implements GameItem { //promete implementar tod
     public abstract void update(); //cada subclase hace el suyo lo suyo
     public abstract String getIcon(); //dibujo
 
+    ////=====================INTERACTIONS==========================================
     @Override
     public abstract boolean interactWith(GameItem item);
 
-    //sobreescritos por clases
     public boolean receiveInteraction(Mario m)   { return false; }
     public boolean receiveInteraction(Goomba g)  { return false; }
     public boolean receiveInteraction(ExitDoor e){ return false; }
@@ -59,9 +64,8 @@ public abstract class GameObject implements GameItem { //promete implementar tod
     public boolean receiveInteraction(Box b) { return false; }
     //usamos el double dispatch, para seber quien hace que al chocar dos objetos
 
-    //FACTORIA................. si
-
-    public GameObject parse(String[] words, Game game) {
+    ////=====================FACTORIA==========================================
+    public GameObject parse(String[] words, GameWorld game) {
         return null; //por default nada
     }
     //dev true si words[1] coincide con tipo
@@ -77,11 +81,11 @@ public abstract class GameObject implements GameItem { //promete implementar tod
             String[] p = s.split(",");
             int r = Integer.parseInt(p[0]);
             int c = Integer.parseInt(p[1]);
-            return new Position(c, r);
+            return new Position(r, c);
         } catch (Exception e) {
             return null;
         }
     }
-
-    public abstract GameObject copy(Game newGame); //los objetos deben auntar al game actual, no al viejo (para lo de ficheritos, save, load)
+    ////=====================COPIA (LOAD)==========================================
+    public abstract GameObject copy(GameWorld newGame); //los objetos deben auntar al game actual, no al viejo (para lo de ficheritos, save, load)
 }

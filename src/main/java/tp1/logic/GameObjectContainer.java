@@ -4,13 +4,17 @@ import tp1.logic.gameobjects.*;
 import tp1.view.Messages;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Almacena todods los objetos, gestiona interacciones, actualiza turnos, limpia muertos
+ */
 public class GameObjectContainer {
 
     private final List<GameObject> objects = new ArrayList<>();
 
     public void add(GameObject obj) {
-        if (obj == null) return;
+        if (obj== null) {
+            return;
+        }
         Position p = obj.getPosition();
         //no en la misma casilla
         for (GameObject o : objects) {
@@ -19,7 +23,7 @@ public class GameObjectContainer {
         objects.add(obj);
     }
 
-    //cositas del tablero
+    ////==================CONSULTAS DE TABLERO============================
     public boolean isSolidAt(Position p) {
         for (GameObject obj : objects) {
             if (obj.isSolid() && obj.occupies(p)) return true;
@@ -27,19 +31,15 @@ public class GameObjectContainer {
         return false;
     }
 
-    public String stringAt(Position p) {
+    public String stringAt(Position p) { //dibuja
         for (GameObject obj : objects) {
             if (obj.occupies(p)) return obj.getIcon();
         }
         return Messages.EMPTY;
     }
-
-
-    /*
-    El ciclo de juego real
-    Cada obj se actualiza, unos hacen cosas y otros no
-    objects =[Mario, Goomba, Mushroom, Land, ExitDoor, Box], bucle para each
-    Hace la doble interacción si estan dos en la misma casilla, DOUBLE DISPATCH
+    ////==========================CICLO DE JUEGO===============================
+    /**
+     * Para cada objeto gestiona interacciones con double dispatch, y luego limpia muertos
      */
     public void updateAll() {
         for (GameObject obj : objects) obj.update();
@@ -47,15 +47,15 @@ public class GameObjectContainer {
         clean(); //recojo cadaveres
     }
 
-    /*
-    Dejo toda esta logica de gestion de interacciones porque me parece correcto y
-    mejor que moverlo y duplicarlo en cada obj
-    Iteramos todas las parejas sin duplicados, lo que me parece eficiente
-
-    El dd permita a cada obj interactuar con otro sin preguntar su clase con instanceof
-    El interactWith solo decide con quien interactua, el recieve interacion hace cosas
-    Ex: goomba recibe a mario falling: goomba muere
-    Ex: Mario recibe a goomba y no cae: mario muere
+    ////==========================INTERACCIONES===============================
+    /**
+     * Toda la logica de gestion de interacciones
+     * Itera todas las parejas, sin duplicados
+     * Double dispatch permite a cada objeto interactuar con otros
+     * interactWith decide con quien interactua
+     * recieveInteracion realiza acciones de respuesta
+     * Ex: goomba recibe a mario falling: goomba muere
+     * Ex: Mario recibe a goomba y no cae: mario muere
      */
     public void doInteractions() {
         final int n = objects.size(); //primero miro cuantos hay
@@ -63,13 +63,13 @@ public class GameObjectContainer {
             GameObject a = objects.get(i);
             if (!a.isAlive()) continue; //si no, me salgo del for
 
-            for (int j = i + 1; j < n; j++) { //empiexa con i+1 para no repetir pares
+            for (int j = i + 1; j < n; j++) { //empieza con i+1 para no repetir pares
                 GameObject b = objects.get(j);
                 if (!b.isAlive()) continue;
-                //mira si estan el la misma posicion o apilados, interactuan mediante double dispatch
+                //mira si estan el la misma posicion o apilados
                 boolean overlap = a.occupies(b.getPosition()) || b.occupies(a.getPosition()) || areStacked(a, b);
                 if (overlap) {
-                    a.interactWith(b); //precioso double dispatch, asi cada uno decide su reacción
+                    a.interactWith(b); //DD
                     b.interactWith(a);
                 }
             }
@@ -83,6 +83,7 @@ public class GameObjectContainer {
         return pa.up().equals(pb) || pb.up().equals(pa);
     }
 
+    ////==========================LIMPIEZA Y UTILIDADES===============================
     private void clean() {
         for (int i = objects.size() - 1; i >= 0; i--) {
             if (!objects.get(i).isAlive()) {

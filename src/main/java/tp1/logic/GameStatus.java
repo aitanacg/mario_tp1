@@ -1,7 +1,7 @@
 package tp1.logic;
-
-//para el status del juego, tipo todo lo extra
-
+/**
+ * Status del juego
+ */
 public interface GameStatus {
 
     int remainingTime();

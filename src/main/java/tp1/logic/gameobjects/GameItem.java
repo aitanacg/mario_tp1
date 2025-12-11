@@ -1,7 +1,9 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Position;
-//define metodos, cosas minimas
+/**Interfaz minima que implementan los objetos del juego
+ * lo implementa GameObject y de ahi extienden los Objetitos
+ */
 public interface GameItem {
 
     boolean isSolid();

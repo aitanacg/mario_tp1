@@ -1,24 +1,24 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class Land extends GameObject {
 
-    //constructor vacio para factoria
     protected Land() {
-        super(null, null);
-    }
+        super();
+    }//constructor vacio para factoria
 
-    public Land(Game game, Position pos) {
+    public Land(GameWorld game, Position pos) {
         super(game, pos);
     }
 
     @Override
     public void update() {
-        //no fa res
-    }
+
+    }//no fa res
 
     @Override
     public boolean isSolid() {
@@ -30,7 +30,7 @@ public class Land extends GameObject {
         return Messages.LAND;
     }
 
-    //DOUBLE DISPATCH
+    ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
     @Override
     public boolean interactWith(GameItem other) {
         if (other.isInPosition(position)) {
@@ -39,7 +39,6 @@ public class Land extends GameObject {
         return false;
     }
 
-    //INTERACTIONS
     @Override
     public boolean receiveInteraction(Mario m) {
         return false; //A land no le importa mario
@@ -63,8 +62,8 @@ public class Land extends GameObject {
     @Override
     public boolean receiveInteraction(Mushroom m) { return false; }
 
-    //FACTRIA
-    public GameObject parse(String[] words, Game game) {
+    ////=====================FACTORIA==========================================
+    public GameObject parse(String[] words, GameWorld game) {
         if (!GameObject.matchesType(words[1], "LAND", "L"))
             return null;
 
@@ -74,16 +73,16 @@ public class Land extends GameObject {
         return new Land(game, pos);
     }
 
+    ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //savee
         Position p = this.position;
         return "(" + p.getRow() + "," + p.getCol() + ") Land";
     }
 
+    ////=====================COPIA (LOAD)==========================================
     @Override
-    public GameObject copy(Game newGame) {//para load/save, evito refs compartidas (FGC)
+    public GameObject copy(GameWorld newGame) {//para load/save, evito refs compartidas (FGC)
         return new Land(newGame, new Position(position.getRow(), position.getCol()));
     }
-
-
 }

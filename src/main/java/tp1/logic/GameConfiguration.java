@@ -1,9 +1,11 @@
 package tp1.logic;
-//config inicial completa, el game puede cargar cuando hago load o reset, interfaz weno
+
 import java.util.List;
 import tp1.logic.gameobjects.GameObject;
 import tp1.logic.gameobjects.Mario;
-
+/**
+ * Config inicial completa, cuando hago load o reset
+ */
 public interface GameConfiguration {
 
     int getRemainingTime();
@@ -12,4 +14,5 @@ public interface GameConfiguration {
 
     Mario getMario();
     List<GameObject> getNPCObjects();  //npcs pov no mario
+    String getFileName();
 }

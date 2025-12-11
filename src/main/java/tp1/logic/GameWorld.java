@@ -1,5 +1,5 @@
 package tp1.logic;
-//para el mundo
+//para el mundo, lo que usan los objects
 
 import tp1.exceptions.ActionParseException;
 import tp1.exceptions.GameModelException;
@@ -10,4 +10,10 @@ public interface GameWorld {
     void updateTurn() throws GameModelException;
     void reset();
     void marioDies();
+    //nuevo al cambiar game por GameWorld
+    ActionList getActions();
+    GameObjectContainer getGameObjectContainer();
+    void addPoints(int pts);
+    void consumeTime(int t);
+    void setPlayerWon();
 }

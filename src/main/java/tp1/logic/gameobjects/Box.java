@@ -1,19 +1,27 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
+/**
+ * Box
+ * Objeto estatico y solido
+ * Puede estar empty o full
+ * Mario le debe dar desde abajo
+ * Box no se mueve ni realiza movimiento automatico
+ */
 
 public class Box extends GameObject {
 
  private boolean isEmpty;
 
     public Box() { //vacio para factoria
-        super(null, null);
+        super();
         this.isEmpty = false;
     }
 
-    public Box(Game game, Position pos, boolean empty) { //constructor default
+    public Box(GameWorld game, Position pos, boolean empty) { //constructor default
         super(game, pos);
         this.isEmpty = empty;
     }
@@ -33,8 +41,7 @@ public class Box extends GameObject {
         return isEmpty ? Messages.BOX_EMPTY : Messages.BOX_FULL;
     }
 
-    //INTERACTIONS-_-_-_-_-_-_-_-_-_-_- :)
-
+    ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
     @Override
     public boolean interactWith(GameItem other) {
         return other.receiveInteraction(this);
@@ -69,9 +76,9 @@ public class Box extends GameObject {
     public boolean receiveInteraction(Box b) { return false; }
     public boolean receiveInteraction(Mushroom m) { return false; }
 
-    //FACTORIA
+    ////=====================FACTORIA==========================================
     @Override
-    public GameObject parse(String[] words, Game game) {
+    public GameObject parse(String[] words, GameWorld game) {
 
         if (!GameObject.matchesType(words[1], "BOX", "B"))
             return null;
@@ -92,15 +99,17 @@ public class Box extends GameObject {
         return new Box(game, p, empty);
     }
 
+    ////=====================SERIALIZACION (SAVE)==========================================
     @Override
-    public String toString() { //pal save, que no me salga tp1.logic.gameobjects.Goomba@123patatas jajs
+    public String toString() { //pal save, que no me salga tp1.logic.gameobjects.Goomba@123patatas
         Position p = this.position;
         String state = isEmpty ? "Empty" : "Full";
         return "(" + p.getRow() + "," + p.getCol() + ") Box " + state;
     }
 
+    ////=====================COPIA (LOAD)==========================================
     @Override
-    public GameObject copy(Game newGame) { //para load/save, evito refs compartidas (FGC)
+    public GameObject copy(GameWorld newGame) { //para load/save, evito refs compartidas (FGC), genero una copia independiente
         return new Box(newGame,
                 new Position(position.getRow(), position.getCol()),
                 this.isEmpty);

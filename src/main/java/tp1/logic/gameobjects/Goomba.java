@@ -1,17 +1,16 @@
 package tp1.logic.gameobjects;
 
-import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.logic.Action;
 
 public class Goomba extends MovingObject {
 
-    //constructor vacio para factoria
-    protected Goomba() {
-        super(null, null);
-    }
+    protected Goomba() {//constructor vacio para factoria
+     super();
+     }
 
-    public Goomba(Game game, Position pos) {
+    public Goomba(GameWorld game, Position pos) {
         super(game,pos);
         this.dir = Action.LEFT;
     }
@@ -21,41 +20,12 @@ public class Goomba extends MovingObject {
         return tp1.view.Messages.GOOMBA;
     }
 
-
-    //aplica gravedad, mov horizontal y rebota
     @Override
     public void update() {
-
-        //gravedad
-        Position below = position.down();
-        if (!game.getGameObjectContainer().isSolidAt(below)) {
-            position = below;
-            //si cae fuera del tablero muere
-            if (position.getRow() >= Game.DIM_Y) die();
-            return;
-        }
-
-        //mov horizontal con rebotito
-        Position nextPos = position.next(dir);
-
-        boolean hitsWall = !nextPos.isInBounds(Game.DIM_X, Game.DIM_Y);
-        boolean solidAhead = game.getGameObjectContainer().isSolidAt(nextPos);
-        // rebote
-        if (hitsWall || solidAhead) {
-            flipDirection();
-            return;
-        }
-
-        position = nextPos;
+        autoMove();//aplica gravedad, mov horizontal y rebota
     }
 
-    private void flipDirection() {
-        if (dir == Action.LEFT) dir = Action.RIGHT;
-        else dir = Action.LEFT;
-    }
-
-    //DOUBLE DISPATCH <3
-
+    ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
     @Override
     public boolean interactWith(GameItem other) {
         return other.receiveInteraction(this);
@@ -94,9 +64,8 @@ public class Goomba extends MovingObject {
     @Override public boolean receiveInteraction(Land l)    { return false; }
     @Override public boolean receiveInteraction(Mushroom m) { return false; }
 
-    //FACTORIA
-
-    public GameObject parse(String[] words, Game game) {
+    ////=====================FACTORIA==========================================
+    public GameObject parse(String[] words, GameWorld game) {
         if (!GameObject.matchesType(words[1], "GOOMBA", "G"))  //es goomba??
             return null;
 
@@ -117,6 +86,7 @@ public class Goomba extends MovingObject {
         return g;
     }
 
+    ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //para savee
         Position p = this.position;
@@ -124,8 +94,9 @@ public class Goomba extends MovingObject {
         return "(" + p.getRow() + "," + p.getCol() + ") Goomba " + dirStr;
     }
 
+    ////=====================COPIA (LOAD)==========================================
     @Override
-    public GameObject copy(Game newGame) { //para load/save, evito refs compartidas (FGC) ye
+    public GameObject copy(GameWorld newGame) { //para load/save, evito refs compartidas (FGC) ye
         Goomba g = new Goomba(newGame, new Position(position.getRow(), position.getCol()));
         g.setDir(this.dir);
         return g;

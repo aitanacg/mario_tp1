@@ -1,18 +1,20 @@
 package tp1.logic.gameobjects;
 
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.logic.Action;
 import tp1.logic.Game;
 
 public class Mario extends MovingObject {
 
-    //constructor vacio para facotria
-    public Mario() {
-        super(null, null);
+    public Mario() {//constructor vacio para factoria
+        super();
+    }
+    public Mario(GameWorld game, Position pos) {
+        super(game, pos);
     }
 
     public enum Facing{ LEFT, RIGHT};
-
     private Facing facing = Facing.RIGHT;
     private boolean big = false;  //si fuera true, ocuparia la tile de arriba
     private boolean stopped = false; //para el icono STOP
@@ -20,9 +22,6 @@ public class Mario extends MovingObject {
     private boolean jumping = false;
     private boolean justDidDown = false; //para que no se me buguee y no se me vaya volando
 
-    public Mario(Game game, Position pos) {
-        super(game, pos);
-    }
     //basics
     public Position getPosition() {
         return position;
@@ -52,12 +51,27 @@ public class Mario extends MovingObject {
         super.falling = f;
     }
 
-    public Game getGame() { return this.game; }
+    public GameWorld getGame() { return this.game; }
 
-    //lo que ocupa
-    public boolean occupies(Position p) { //si es big tmb el la de arriba
+    public boolean occupies(Position p) { //para ver si ocupa una o dos tiles
         if (p.equals(position)) return true;
         return big && p.equals(position.up());
+    }
+
+    private boolean canOccupy(Position p) {//mario ocupa casilla base p
+        if (!isInsideBoard(p)) return false;
+        if (game.getGameObjectContainer().isSolidAt(p)) return false;
+
+        if (big) {
+            Position top = p.up();
+            if (!isInsideBoard(top)) return false;
+            if (game.getGameObjectContainer().isSolidAt(top)) return false;
+        }
+        return true;
+    }
+
+    private boolean isInsideBoard(Position p) {
+        return p.isInBounds(Game.DIM_Y, Game.DIM_X);
     }
 
     @Override
@@ -95,8 +109,7 @@ public class Mario extends MovingObject {
         }
         if (!jumping && saltitosLeft > 0) saltitosLeft = 0;
         //gravedad y salto
-        //mientras queden saltitos
-        if (jumping && saltitosLeft > 0) {
+        if (jumping && saltitosLeft > 0) {//mientras queden saltitos
             Position up = position.up();
 
             if (!game.getGameObjectContainer().isSolidAt(up)) {
@@ -176,7 +189,6 @@ public class Mario extends MovingObject {
                 position = next;
                 next = position.down();
             }
-
             return true;
         }
 
@@ -189,24 +201,7 @@ public class Mario extends MovingObject {
         return true;
     }
 
-    //mario ocupa casilla base p
-    private boolean canOccupy(Position p) {
-        if (!isInsideBoard(p)) return false;
-        if (game.getGameObjectContainer().isSolidAt(p)) return false;
-
-        if (big) {
-            Position top = p.up();
-            if (!isInsideBoard(top)) return false;
-            if (game.getGameObjectContainer().isSolidAt(top)) return false;
-        }
-        return true;
-    }
-
-    private boolean isInsideBoard(Position p) {
-        return p.isInBounds(Game.DIM_X, Game.DIM_Y);
-    }
-
-    //INTERACTIONS
+    ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
     @Override
     public boolean interactWith(GameItem other) {
         return other.receiveInteraction(this);
@@ -242,9 +237,9 @@ public class Mario extends MovingObject {
         return true;
     }
 
-    //FACTORIA
+    ////=====================FACTORIA==========================================
     @Override
-    public Mario parse(String[] words, Game game){  //puedo devolver mario aunque el papa devuelva GameObject para el fgc
+    public Mario parse(String[] words, GameWorld game){  //puedo devolver mario aunque el papa devuelva GameObject para el fgc
         if (!GameObject.matchesType(words[1], "MARIO", "M"))  //es mario?
             return null;
 
@@ -274,6 +269,7 @@ public class Mario extends MovingObject {
         return m;
     }
 
+    ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //para el save, el mas tocho
         Position p = this.position;
@@ -284,8 +280,9 @@ public class Mario extends MovingObject {
         return "(" + p.getRow() + "," + p.getCol() + ") Mario " + dirStr + " " + sizeStr;
     }
 
+    ////=====================COPIA (LOAD)==========================================
     @Override
-    public GameObject copy(Game newGame) {//para load/save, evito refs compartidas (FGC), importante el mario
+    public Mario copy(GameWorld newGame) {//para load/save, evito refs compartidas (FGC), importante el mario
         Mario m = new Mario(newGame, new Position(position.getRow(), position.getCol()));
 
         m.setBig(this.isBig());

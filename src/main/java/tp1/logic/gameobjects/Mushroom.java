@@ -2,19 +2,18 @@ package tp1.logic.gameobjects;
 
 import tp1.logic.Action;
 import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class Mushroom extends MovingObject {
 
-    //const vacio para factoria
-    protected Mushroom() {
+    protected Mushroom() {//const vacio para factoria
         super(null, null);
         this.dir = Action.RIGHT;
     }
 
-    //constructor
-    public Mushroom(Game game, Position pos) {
+    public Mushroom(GameWorld game, Position pos) {
         super(game, pos);
         this.dir = Action.RIGHT; //default derecha
     }
@@ -31,36 +30,10 @@ public class Mushroom extends MovingObject {
 
     @Override
     public void update() {
-
-        //gravedad igual que goomba jsjs
-        Position below = position.down();
-        if (!game.getGameObjectContainer().isSolidAt(below)) {
-            position = below;
-            if (position.getRow() >= Game.DIM_Y) {
-                die();
-            }
-            return;
-        }
-
-        //mov horizontal con rebote como goomba vamos
-        Position nextPos = position.next(dir);
-
-        boolean hitsWall = !nextPos.isInBounds(Game.DIM_X, Game.DIM_Y);
-        boolean solidAhead = game.getGameObjectContainer().isSolidAt(nextPos);
-
-        if (hitsWall || solidAhead) {
-            flipDirection();
-            return;
-        }
-
-        position = nextPos;
+        autoMove();
     }
 
-    private void flipDirection() {
-        if (dir == Action.LEFT) dir = Action.RIGHT;
-        else dir = Action.LEFT;
-    }
-
+    ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
     @Override
     public boolean interactWith(GameItem other) {
         return other.receiveInteraction(this);
@@ -83,9 +56,9 @@ public class Mushroom extends MovingObject {
     @Override public boolean receiveInteraction(Land l) { return false; }
     @Override public boolean receiveInteraction(ExitDoor d) { return false; }
 
-    //FACTORIA
+    ////=====================FACTORIA==========================================
     @Override
-    public GameObject parse(String[] words, Game game) {
+    public GameObject parse(String[] words, GameWorld game) {
 
         if (!GameObject.matchesType(words[1], "MUSHROOM", "MUSH")) return null;
 
@@ -95,14 +68,16 @@ public class Mushroom extends MovingObject {
         return new Mushroom(game, pos);
     }
 
+    ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //para el save como todos los otros
         Position p = this.position;
         return "(" + p.getRow() + "," + p.getCol() + ") Mushroom";
     }
 
+    ////=====================COPIA (LOAD)==========================================
     @Override
-    public GameObject copy(Game newGame) { //como los otros, para el FGC, para load y save
+    public GameObject copy(GameWorld newGame) { //como los otros, para el FGC, para load y save
         Mushroom m = new Mushroom(newGame, new Position(position.getRow(), position.getCol()));
         m.setDir(this.dir);
         return m;

@@ -5,6 +5,7 @@ import java.util.List;
 import tp1.exceptions.ObjectParseException;
 import tp1.exceptions.OffBoardException;
 import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 
 public class GameObjectFactory {
@@ -19,13 +20,13 @@ public class GameObjectFactory {
             new Box()
     );
 
-    public static GameObject parse(String[] words, Game game) throws ObjectParseException, OffBoardException  {
+    public static GameObject parse(String[] words, GameWorld world) throws ObjectParseException, OffBoardException  { //cambio Game por Gameworld
         for (GameObject Objetito : availableObjects) {
-            GameObject obj = Objetito.parse(words, game);
+            GameObject obj = Objetito.parse(words, world);
 
             if (obj != null) {
                 Position p = obj.getPosition();
-                if (!p.isInBounds(Game.DIM_X, Game.DIM_Y)) {//valido pos
+                if (!p.isInBounds(Game.DIM_Y, Game.DIM_X)) {//valido pos PQ ESTABA AL REVES AITANA???
                     throw new OffBoardException("Object position is off the board: \"" + String.join(" ", words) + "\"");
                 }
                 return obj;

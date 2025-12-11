@@ -2,9 +2,8 @@ package tp1.logic;
 
 import tp1.exceptions.ActionParseException;
 import tp1.view.Messages;
-
 /**
- * Represents the allowed actions in the game
+ * Acciones permitidas en el juego
  */
 public enum Action {
 	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), STOP(0,0);
@@ -37,7 +36,7 @@ public enum Action {
             case "S": case "STOP":
             case "NONE": return STOP;
             default:
-                throw new ActionParseException(Messages.UNKNOWN_ACTION.formatted(s)// mensaje bonito usando Messages
+                throw new ActionParseException(Messages.UNKNOWN_ACTION.formatted(s)
                 );
         }
     }
