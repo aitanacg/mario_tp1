@@ -34,11 +34,14 @@ public class Goomba extends MovingObject {
     @Override
     public boolean receiveInteraction(Mario m) {
 
+        if (!this.isAlive()) return false;
+
         Position mp = m.getPosition();
         Position gp = this.position;
 
-        Position marioAbajo = mp.down();
-        boolean pisa = m.isFalling() && marioAbajo.equals(gp);
+        //Position marioAbajo = mp.down();
+        //boolean pisa = m.isFalling() && marioAbajo.equals(gp);
+        boolean pisa = m.isFalling() && mp.equals(gp); //es la misma casilla
         if (pisa) {
             die();
             game.addPoints(100);

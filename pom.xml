@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.ucm.fdi.tp</groupId>  <!-- tu organización; ej.: es.ucm.fdi.tp -->
-    <artifactId>p3</artifactId>  <!-- nombre del proyecto -->
+    <artifactId>p1</artifactId>  <!-- nombre del proyecto -->
     <version>0.1-SNAPSHOT</version>
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

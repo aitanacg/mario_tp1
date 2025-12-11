@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="Listo para examen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AddObjectCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/AddObjectCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/LoadCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ResetCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/ResetCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/commands/UpdateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/commands/UpdateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +99,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765482206135</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Listo para examen">
+      <option name="closed" value="true" />
+      <created>1765482517982</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1765482517982</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
