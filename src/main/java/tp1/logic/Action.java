@@ -6,7 +6,8 @@ import tp1.view.Messages;
  * Acciones permitidas en el juego
  */
 public enum Action {
-	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), STOP(0,0);
+	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), STOP(0,0),
+    RIGHTUP(1, -1), RIGHTDOWN(1, +1), LEFTUP(-1, -1), LEFTDOWN(-1, +1);
 	
 	private final int x;
 	private final int y;
@@ -33,6 +34,10 @@ public enum Action {
             case "R": case "RIGHT": return RIGHT;
             case "U": case "UP": return UP;
             case "D": case "DOWN": return DOWN;
+            case "RU": case "RIGHTUP": return RIGHTUP;
+            case "RD": case "RIGHTDOWN": return RIGHTDOWN;
+            case "LU": case "LEFTUP": return LEFTUP;
+            case "LD": case "LEFTDOWN": return LEFTDOWN;
             case "S": case "STOP":
             case "NONE": return STOP;
             default:
@@ -40,4 +45,21 @@ public enum Action {
                 );
         }
     }
+    public boolean isOpposite(Action other) {
+
+        // cardinales
+        if (this == LEFT && other == RIGHT) return true;
+        if (this == RIGHT && other == LEFT) return true;
+        if (this == UP && other == DOWN) return true;
+        if (this == DOWN && other == UP) return true;
+
+        // diagonales opuestas
+        if (this == RIGHTUP && other == LEFTDOWN) return true;
+        if (this == LEFTDOWN && other == RIGHTUP) return true;
+        if (this == RIGHTDOWN && other == LEFTUP) return true;
+        if (this == LEFTUP && other == RIGHTDOWN) return true;
+
+        return false;
+    }
+
 }

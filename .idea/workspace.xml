@@ -5,14 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="Listo para examen">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/StarBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

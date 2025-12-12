@@ -17,6 +17,11 @@ public class ActionList {
         if (act == null) return false;
         if (actions.size() >= MAX_ACTIONS) return false; // ya hay 4
 
+        for (Action a : actions) {
+            if (a.isOpposite(act))
+                return false;
+        }
+
         actions.add(act);
         return true;
     }

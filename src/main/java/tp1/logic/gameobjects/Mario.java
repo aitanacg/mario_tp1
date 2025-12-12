@@ -22,6 +22,15 @@ public class Mario extends MovingObject {
     private boolean jumping = false;
     private boolean justDidDown = false; //para que no se me buguee y no se me vaya volando
 
+    private int turnosInmortal=0;
+
+    public void activateStar(int turns){
+        turnosInmortal=turns;
+    }
+    public boolean chetado(){
+        return turnosInmortal > 0;
+    }
+
     //basics
     public Position getPosition() {
         return position;
@@ -93,6 +102,7 @@ public class Mario extends MovingObject {
      */
     @Override
     public void update() {
+
         int moves = 0; //cuenta movimientos
         if (stopped) jumping = false;
 
@@ -141,6 +151,9 @@ public class Mario extends MovingObject {
             }
         }
         justDidDown = false;
+        if (turnosInmortal > 0) {
+            turnosInmortal--;
+        }
     }
 
     //aplica una accion
@@ -192,6 +205,29 @@ public class Mario extends MovingObject {
             return true;
         }
 
+        if (a == Action.RIGHTUP || a == Action.LEFTUP) {
+            // solo permitimos subir si está ONGROUND
+            Position below = position.down();
+            boolean onGround = game.getGameObjectContainer().isSolidAt(below);
+            if (!onGround) return true; // no está en el suelo → no sube
+            // se mueve diagonal arriba
+            Position next = position.next(a);
+            if (canOccupy(next)) {
+                position = next;
+                justDidDown = true;
+                setFalling(false);
+            }
+            return true;
+        }
+
+        if (a == Action.RIGHTDOWN || a == Action.LEFTDOWN) {
+            // movimiento diagonales abajo → dejar gravedad normal
+            Position next = position.next(a);
+            if (canOccupy(next)) position = next;
+            justDidDown = true; //evita doble gravedad
+            return true;
+        }
+
         //mover si es ocupable
         Position next = position.next(a);
         if (canOccupy(next)) {
@@ -212,6 +248,13 @@ public class Mario extends MovingObject {
     @Override
     public boolean receiveInteraction(Goomba g) {
         //no fa res, la logica de matar y pisar ta en goomba.recieveInteraction(mario)
+        if (turnosInmortal > 0) {
+            // si tengo estrella, el goomba muere automáticamente
+            g.die();
+            game.addPoints(100);
+            return true;
+        }
+
         return false;
     }
 

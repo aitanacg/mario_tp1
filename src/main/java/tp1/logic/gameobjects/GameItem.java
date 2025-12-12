@@ -18,4 +18,5 @@ public interface GameItem {
     boolean receiveInteraction(Goomba obj);
     boolean receiveInteraction(Mushroom obj);
     boolean receiveInteraction(Box obj);
+    boolean receiveInteraction(StarBox obj);
 }

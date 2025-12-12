@@ -33,7 +33,11 @@ public class Goomba extends MovingObject {
 
     @Override
     public boolean receiveInteraction(Mario m) {
-
+        if (m.chetado()) {
+            die();
+            game.addPoints(100);
+            return true;
+        }
         if (!this.isAlive()) return false;
 
         Position mp = m.getPosition();

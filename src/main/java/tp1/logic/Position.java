@@ -29,6 +29,10 @@ public final class Position {
     public Position down()  { return translate(0, +1); }
     public Position left()  { return translate(-1, 0); }
     public Position right() { return translate(+1, 0); }
+    public Position rightup() { return translate(+1, -1); }
+    public Position rightdown() { return translate(+1, 1); }
+    public Position leftup() { return translate(-1, -1); }
+    public Position leftdown() { return translate(-1, 1); }
 
     //comprueba que la pos esta en el tablero
 	public boolean isInBounds(int height, int width){ //PQ TENGO TODO GIRADO HELP  QUE ME TOME
@@ -41,6 +45,10 @@ public final class Position {
             case RIGHT: return translate(+1, 0);
             case UP:    return translate(0, -1);
             case DOWN:  return translate(0, +1);
+            case RIGHTUP:  return rightup();
+            case RIGHTDOWN: return rightdown();
+            case LEFTUP: return leftup();
+            case LEFTDOWN: return leftdown();
             default:    return this;
         }
     }

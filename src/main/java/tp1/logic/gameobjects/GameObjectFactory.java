@@ -17,7 +17,8 @@ public class GameObjectFactory {
             new Goomba(),
             new Mario(),
             new Mushroom(),
-            new Box()
+            new Box(),
+            new StarBox()
     );
 
     public static GameObject parse(String[] words, GameWorld world) throws ObjectParseException, OffBoardException  { //cambio Game por Gameworld
