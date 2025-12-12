@@ -32,6 +32,10 @@ public class Controller {
                 String[] words = view.getPrompt();
                 Command command = CommandGenerator.parse(words); //me identifica el comando
                 command.execute(game, view); //me ejecuta el comando
+                if (game.hasBombExploded()) {
+                    System.out.println(Messages.BOMB_EXPLODED);
+                    game.clearBombExploded();
+                }
                 view.showGame();//si no hay eXCepciones
             }
             catch (CommandException e) { //one & onlyy excepcion

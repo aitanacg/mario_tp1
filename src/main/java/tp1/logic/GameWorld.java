@@ -16,4 +16,10 @@ public interface GameWorld {
     void addPoints(int pts);
     void consumeTime(int t);
     void setPlayerWon();
+    void BombExploded();
+    boolean hasBombExploded();
+    void clearBombExploded();
+    void setLavaActive();
+    boolean isLavaActive();
+    void clearLava();
 }

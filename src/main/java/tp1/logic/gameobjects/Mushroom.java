@@ -51,10 +51,19 @@ public class Mushroom extends MovingObject {
         return true;
     }
 
+    @Override
+    public boolean receiveInteraction(Bomb b) {
+        die();
+        return true;
+    }
+
     //a los otros los ignora
     @Override public boolean receiveInteraction(Goomba g) { return false; }
     @Override public boolean receiveInteraction(Land l) { return false; }
     @Override public boolean receiveInteraction(ExitDoor d) { return false; }
+    @Override public boolean receiveInteraction(SolidIsLava sl) {
+        return false;
+    }
 
     ////=====================FACTORIA==========================================
     @Override

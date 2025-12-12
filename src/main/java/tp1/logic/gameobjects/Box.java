@@ -99,6 +99,11 @@ public class Box extends GameObject {
         return new Box(game, p, empty);
     }
 
+    @Override
+    public boolean receiveInteraction(SolidIsLava sl) {
+        return false;
+    }
+
     ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //pal save, que no me salga tp1.logic.gameobjects.Goomba@123patatas

@@ -1,33 +1,58 @@
 package tp1.logic.gameobjects;
 
-import tp1.logic.Game;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
-public class Land extends GameObject {
+public class Bomb extends GameObject{
+    private int timer = 3;
 
-    protected Land() {
+    protected Bomb() {
         super();
     }//constructor vacio para factoria
 
-    public Land(GameWorld game, Position pos) {
+    public Bomb(GameWorld game, Position pos) {
         super(game, pos);
+        this.timer = 3;
     }
 
     @Override
     public void update() {
+        if (!alive) return;
+        timer--;
 
+        if (timer <= 0) {
+            explode();
+            die();
+        }
     }//no fa res
+
+    public void explode() {
+        game.BombExploded();
+        for(GameObject obj : game.getGameObjectContainer().getObjects()) {
+            if (obj == this) continue; // no se autoprocesa
+            if (!obj.isAlive()) continue; // si ya está muerto, ignora
+            if (obj.isSolid()) continue;
+            Position p = obj.getPosition();
+            int dist = radio(position, p);
+            if (dist <= 6) {
+                obj.receiveInteraction(this);
+            }
+        }
+    }
+    private int radio(Position a, Position b) {
+        return Math.abs(a.getRow() - b.getRow())
+                + Math.abs(a.getCol() - b.getCol());
+    }
 
     @Override
     public boolean isSolid() {
-        return true; //suelo
+        return false;
     }
 
     @Override
     public String getIcon() {
-        return Messages.LAND;
+        return Messages.BOMB;
     }
 
     ////===================INTERACTIONS (DOUBLE DISPATCH)====================================
@@ -41,14 +66,7 @@ public class Land extends GameObject {
 
     @Override
     public boolean receiveInteraction(Mario m) {
-        if (game.isLavaActive()) {
-            if (!m.isBig()) {
-                game.marioDies();
-            } else {
-                m.setBig(false);
-            }
-        }
-        return false;
+        return false; //A land no le importa mario
     }
 
     @Override
@@ -76,25 +94,25 @@ public class Land extends GameObject {
 
     ////=====================FACTORIA==========================================
     public GameObject parse(String[] words, GameWorld game) {
-        if (!GameObject.matchesType(words[1], "LAND", "L"))
+        if (!GameObject.matchesType(words[1], "BOMB", "BO"))
             return null;
 
         Position pos = GameObject.parsePosition(words[0]);
         if (pos == null) return null;
 
-        return new Land(game, pos);
+        return new Bomb(game, pos);
     }
 
     ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //savee
         Position p = this.position;
-        return "(" + p.getRow() + "," + p.getCol() + ") Land";
+        return "(" + p.getRow() + "," + p.getCol() + ") Bomb";
     }
 
     ////=====================COPIA (LOAD)==========================================
     @Override
     public GameObject copy(GameWorld newGame) {//para load/save, evito refs compartidas (FGC)
-        return new Land(newGame, new Position(position.getRow(), position.getCol()));
+        return new Bomb(newGame, new Position(position.getRow(), position.getCol()));
     }
 }

@@ -5,20 +5,32 @@ import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
-public class Land extends GameObject {
+public class Brick extends MovingObject {
 
-    protected Land() {
+    protected Brick() {
         super();
-    }//constructor vacio para factoria
+    }
+    //constructor vacio para factoria
 
-    public Land(GameWorld game, Position pos) {
+    public Brick(GameWorld game, Position pos) {
         super(game, pos);
+        this.falling = true;
     }
 
     @Override
     public void update() {
+        //gravedad
+        Position below = position.down();
+        if (below.isInBounds(Game.DIM_Y, Game.DIM_X)
+                && !game.getGameObjectContainer().isSolidAt(below)) {
+            position = below;
+            falling = true;
+        }
+        else {
+            falling = false;
+        }
 
-    }//no fa res
+    }
 
     @Override
     public boolean isSolid() {
@@ -41,19 +53,26 @@ public class Land extends GameObject {
 
     @Override
     public boolean receiveInteraction(Mario m) {
-        if (game.isLavaActive()) {
+        if (this.falling && position.equals(m.getPosition())) {
+
             if (!m.isBig()) {
                 game.marioDies();
-            } else {
+            }
+            else {
                 m.setBig(false);
             }
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean receiveInteraction(Goomba g) {
-        return false;//same
+        if (this.falling && position.equals(g.getPosition())) {
+            g.die();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -76,25 +95,25 @@ public class Land extends GameObject {
 
     ////=====================FACTORIA==========================================
     public GameObject parse(String[] words, GameWorld game) {
-        if (!GameObject.matchesType(words[1], "LAND", "L"))
+        if (!GameObject.matchesType(words[1], "BRICK", "BR"))
             return null;
 
         Position pos = GameObject.parsePosition(words[0]);
         if (pos == null) return null;
 
-        return new Land(game, pos);
+        return new Brick(game, pos);
     }
 
     ////=====================SERIALIZACION (SAVE)==========================================
     @Override
     public String toString() { //savee
         Position p = this.position;
-        return "(" + p.getRow() + "," + p.getCol() + ") Land";
+        return "(" + p.getRow() + "," + p.getCol() + ") Brick";
     }
 
     ////=====================COPIA (LOAD)==========================================
     @Override
     public GameObject copy(GameWorld newGame) {//para load/save, evito refs compartidas (FGC)
-        return new Land(newGame, new Position(position.getRow(), position.getCol()));
+        return new Brick(newGame, new Position(position.getRow(), position.getCol()));
     }
 }

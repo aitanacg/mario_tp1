@@ -26,6 +26,9 @@ public class Game implements GameModel{
 	private boolean playerWon = false;
 	private boolean playerLost = false;
 
+    private boolean bombExploded = false;
+    private boolean lavaActive = false;
+
     //objetos del juego
 	private GameObjectContainer gameObjects = new GameObjectContainer();
 	private Mario mario;
@@ -53,6 +56,8 @@ public class Game implements GameModel{
     	finished = false;
     	playerWon = false;
     	playerLost = false;
+        bombExploded = false;
+        lavaActive = false;
 	}
 
     ////====================================NIVELES==========================================
@@ -103,6 +108,7 @@ public class Game implements GameModel{
 
     private void initLevel2() {
         initLevel1();
+        this.nLevel = 2;
         gameObjects.add(new Box(this, new Position(9,4), false)); //box (9,4)
         gameObjects.add(new Mushroom(this, new Position(12,8))); //mushroom(12,8)
         gameObjects.add(new Mushroom(this, new Position(2,20))); //mushroom (2,20)
@@ -184,6 +190,7 @@ public class Game implements GameModel{
 	}
 
     public void updateTurn() throws GameModelException{//un turno hace el update
+        lavaActive = false;
         gameObjects.updateAll(); //goombas
     }
 
@@ -208,6 +215,12 @@ public class Game implements GameModel{
                 initLevel0();
             else if (nLevel == 2)
                 initLevel2();
+            else if (nLevel == 99)
+                try {
+                    load(fileLoader.getFileName());
+                } catch (GameLoadException e) {
+                    initLevel1();
+                }
             else
                 initLevel1();
         }
@@ -228,6 +241,31 @@ public class Game implements GameModel{
         this.finished = true;
         this.playerWon = true;
     }
+
+    public void BombExploded(){
+        this.bombExploded = true;
+    }
+
+    public boolean hasBombExploded() {
+        return bombExploded;
+    }
+
+    public void clearBombExploded() {
+        bombExploded = false;
+    }
+
+    public void setLavaActive() {
+        lavaActive = true;
+    }
+
+    public boolean isLavaActive() {
+        return lavaActive;
+    }
+
+    public void clearLava() {
+        lavaActive = false;
+    }
+
 
     @Override
     public void addAction(Action a) throws ActionParseException {
@@ -277,6 +315,7 @@ public class Game implements GameModel{
 
     	this.points   = keepPoints;
     	this.numLives = keepLives;
+        this.bombExploded = false;
 	}
 	
 	public void reset() {
@@ -294,6 +333,7 @@ public class Game implements GameModel{
         //reset viejo <3
         int keepPoints = this.points;
 		int keepLives = this.numLives;
+        this.bombExploded = false;
 
 		 //recarga level
         if (nLevel == -1)
@@ -319,6 +359,8 @@ public class Game implements GameModel{
 
         FileGameConfiguration fgc = new FileGameConfiguration(fileName, this); //creo config desde fichero
         this.fileLoader = fgc; //guardo ref para reset
+
+        this.nLevel = 99;
 
         this.remainingTime = fgc.getRemainingTime();  //actualizo game
         this.points = fgc.getPoints();

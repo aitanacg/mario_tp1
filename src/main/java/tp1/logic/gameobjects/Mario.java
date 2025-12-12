@@ -280,6 +280,20 @@ public class Mario extends MovingObject {
         return true;
     }
 
+    @Override
+    public boolean receiveInteraction(Bomb b) {
+        if (this.isBig()) {
+            this.setBig(false); // se encoge y NO muere
+        } else {
+            game.marioDies(); // pierde vida
+        }
+        return true;
+    }
+    @Override
+    public boolean receiveInteraction(SolidIsLava sl) {
+        return false;
+    }
+
     ////=====================FACTORIA==========================================
     @Override
     public Mario parse(String[] words, GameWorld game){  //puedo devolver mario aunque el papa devuelva GameObject para el fgc

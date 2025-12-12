@@ -58,6 +58,7 @@ public class ExitDoor extends GameObject {
 
     @Override
     public boolean receiveInteraction(Mushroom m) { return false; }
+    @Override public boolean receiveInteraction(SolidIsLava sl) {return false;}
 
     ////=====================FACTORIA==========================================
     public GameObject parse(String[] words, GameWorld game) {

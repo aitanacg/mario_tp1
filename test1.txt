@@ -105,3 +105,4 @@
 (12,10) Goomba RIGHT
 (12,14) Goomba RIGHT
 (6,4) Box Full
+(1,1) SolidIsLava

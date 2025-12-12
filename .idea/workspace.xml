@@ -4,17 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="Listo para examen">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/StarBox.java" afterDir="false" />
+    <list default="true" id="d06688ed-e7ff-4795-928e-9ae49273e9a4" name="Changes" comment="Movimientos diagonales y StarBox">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Bomb.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Brick.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/SolidIsLava.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/ActionList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/control/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/control/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/GameWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/GameWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Box.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/ExitDoor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/ExitDoor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/GameObjectFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Goomba.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Land.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Land.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mushroom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/logic/gameobjects/Mushroom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tp1/view/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tp1/view/Messages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test1.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +96,7 @@
       <workItem from="1764547426924" duration="1647000" />
       <workItem from="1764549972724" duration="4085000" />
       <workItem from="1764675487380" duration="4845000" />
+      <workItem from="1765545030316" duration="10954000" />
     </task>
     <task id="LOCAL-00001" summary="P3">
       <option name="closed" value="true" />
@@ -121,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765482517982</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Movimientos diagonales y StarBox">
+      <option name="closed" value="true" />
+      <created>1765499392657</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765499392657</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +147,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="P3" />
     <MESSAGE value="Listo para examen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Listo para examen" />
+    <MESSAGE value="Movimientos diagonales y StarBox" />
+    <option name="LAST_COMMIT_MESSAGE" value="Movimientos diagonales y StarBox" />
   </component>
 </project>

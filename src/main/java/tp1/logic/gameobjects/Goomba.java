@@ -66,10 +66,16 @@ public class Goomba extends MovingObject {
         return false;
     }
 
+    @Override public boolean receiveInteraction(Bomb b) {
+        die();
+        return true;
+    }
+
     @Override public boolean receiveInteraction(Goomba g)  { return false; }
     @Override public boolean receiveInteraction(ExitDoor d){ return false; }
     @Override public boolean receiveInteraction(Land l)    { return false; }
     @Override public boolean receiveInteraction(Mushroom m) { return false; }
+    @Override public boolean receiveInteraction(SolidIsLava sl) {return false;}
 
     ////=====================FACTORIA==========================================
     public GameObject parse(String[] words, GameWorld game) {

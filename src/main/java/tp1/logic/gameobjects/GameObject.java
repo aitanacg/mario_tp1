@@ -63,6 +63,9 @@ public abstract class GameObject implements GameItem {
     }
     public boolean receiveInteraction(Box b) { return false; }
     public boolean receiveInteraction(StarBox b) { return false; }
+    public boolean receiveInteraction(Brick b) { return false; }
+    public boolean receiveInteraction(Bomb b) { return false; }
+    public boolean receiveInteraction(SolidIsLava s) { return false; }
     //usamos el double dispatch, para seber quien hace que al chocar dos objetos
 
     ////=====================FACTORIA==========================================

@@ -107,6 +107,8 @@ public class Messages {
     public static final String MUSHROOM = "\uD83C\uDF44";
     public static final String BOX_FULL = "?";
     public static final String BOX_EMPTY = "0";
+    public static final String BOMB = "X";
+    public static final String LAVA = "\uD83D\uDD25";
 
 
     //mios nuevos bonitos
@@ -117,6 +119,7 @@ public class Messages {
     public static final String FILE_NOT_FOUND = "File not found: \"%s\"";
     public static final String FILE_READING_ERROR = "File reading error: \"%s\"";
     public static final String ERROR_SAVING = "Unable to save game configuration to file \"%s\"";
+    public static final String BOMB_EXPLODED = "💥 BOOM! The bomb has exploded!";
 
 
 }
